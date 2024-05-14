@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydropressTest", "Test\HydropressTest.csproj", "{6987FD44-3AFA-4F93-9A84-433034830A75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMain", "TestMain\TestMain.csproj", "{015237CB-9FCF-4317-85FD-A5C0654E7218}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6987FD44-3AFA-4F93-9A84-433034830A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6987FD44-3AFA-4F93-9A84-433034830A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6987FD44-3AFA-4F93-9A84-433034830A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6987FD44-3AFA-4F93-9A84-433034830A75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015237CB-9FCF-4317-85FD-A5C0654E7218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015237CB-9FCF-4317-85FD-A5C0654E7218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015237CB-9FCF-4317-85FD-A5C0654E7218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015237CB-9FCF-4317-85FD-A5C0654E7218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

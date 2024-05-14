@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -52,10 +52,20 @@
     <Compile Include="HydropressTest.Designer.cs">
       <DependentUpon>HydropressTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="LTDMC.cs" />
+    <Compile Include="Parameter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Parameter.Designer.cs">
+      <DependentUpon>Parameter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="HydropressTest.resx">
       <DependentUpon>HydropressTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Parameter.resx">
+      <DependentUpon>Parameter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
