@@ -37,6 +37,11 @@
             this.label93 = new System.Windows.Forms.Label();
             this.uiGroupBox1 = new Sunny.UI.UIGroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.uiGroupBox10 = new Sunny.UI.UIGroupBox();
+            this.nud_Tacc = new System.Windows.Forms.NumericUpDown();
+            this.nud_Tdec = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.uiButton2 = new Sunny.UI.UIButton();
             this.uiButton1 = new Sunny.UI.UIButton();
             this.uiGroupBox9 = new Sunny.UI.UIGroupBox();
@@ -95,16 +100,14 @@
             this.yxyl = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.nud_Tdec = new System.Windows.Forms.NumericUpDown();
-            this.nud_Tacc = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.uiGroupBox10 = new Sunny.UI.UIGroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.qswz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qssd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qsyl)).BeginInit();
             this.uiGroupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.uiGroupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Tacc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Tdec)).BeginInit();
             this.uiGroupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kmwz4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kmsd4)).BeginInit();
@@ -137,9 +140,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.yxwz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yxsd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yxyl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Tdec)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Tacc)).BeginInit();
-            this.uiGroupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // statelabe
@@ -278,6 +278,78 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(990, 538);
             this.panel1.TabIndex = 48;
+            // 
+            // uiGroupBox10
+            // 
+            this.uiGroupBox10.Controls.Add(this.nud_Tacc);
+            this.uiGroupBox10.Controls.Add(this.nud_Tdec);
+            this.uiGroupBox10.Controls.Add(this.label8);
+            this.uiGroupBox10.Controls.Add(this.label10);
+            this.uiGroupBox10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiGroupBox10.Location = new System.Drawing.Point(781, 5);
+            this.uiGroupBox10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiGroupBox10.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiGroupBox10.Name = "uiGroupBox10";
+            this.uiGroupBox10.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
+            this.uiGroupBox10.RectDisableColor = System.Drawing.Color.White;
+            this.uiGroupBox10.Size = new System.Drawing.Size(204, 170);
+            this.uiGroupBox10.TabIndex = 63;
+            this.uiGroupBox10.Text = "时间";
+            this.uiGroupBox10.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nud_Tacc
+            // 
+            this.nud_Tacc.DecimalPlaces = 3;
+            this.nud_Tacc.Location = new System.Drawing.Point(94, 52);
+            this.nud_Tacc.Maximum = new decimal(new int[] {
+            1215752192,
+            23,
+            0,
+            0});
+            this.nud_Tacc.Name = "nud_Tacc";
+            this.nud_Tacc.Size = new System.Drawing.Size(103, 26);
+            this.nud_Tacc.TabIndex = 61;
+            this.nud_Tacc.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            // 
+            // nud_Tdec
+            // 
+            this.nud_Tdec.DecimalPlaces = 3;
+            this.nud_Tdec.Location = new System.Drawing.Point(94, 87);
+            this.nud_Tdec.Maximum = new decimal(new int[] {
+            1215752192,
+            23,
+            0,
+            0});
+            this.nud_Tdec.Name = "nud_Tdec";
+            this.nud_Tdec.Size = new System.Drawing.Size(103, 26);
+            this.nud_Tdec.TabIndex = 62;
+            this.nud_Tdec.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 54);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(79, 16);
+            this.label8.TabIndex = 59;
+            this.label8.Text = "加速时间:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(9, 89);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(79, 16);
+            this.label10.TabIndex = 60;
+            this.label10.Text = "减速时间:";
             // 
             // uiButton2
             // 
@@ -1161,78 +1233,6 @@
             this.label18.TabIndex = 11;
             this.label18.Text = "压力：";
             // 
-            // nud_Tdec
-            // 
-            this.nud_Tdec.DecimalPlaces = 3;
-            this.nud_Tdec.Location = new System.Drawing.Point(94, 87);
-            this.nud_Tdec.Maximum = new decimal(new int[] {
-            1215752192,
-            23,
-            0,
-            0});
-            this.nud_Tdec.Name = "nud_Tdec";
-            this.nud_Tdec.Size = new System.Drawing.Size(103, 26);
-            this.nud_Tdec.TabIndex = 62;
-            this.nud_Tdec.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            // 
-            // nud_Tacc
-            // 
-            this.nud_Tacc.DecimalPlaces = 3;
-            this.nud_Tacc.Location = new System.Drawing.Point(94, 52);
-            this.nud_Tacc.Maximum = new decimal(new int[] {
-            1215752192,
-            23,
-            0,
-            0});
-            this.nud_Tacc.Name = "nud_Tacc";
-            this.nud_Tacc.Size = new System.Drawing.Size(103, 26);
-            this.nud_Tacc.TabIndex = 61;
-            this.nud_Tacc.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 89);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(79, 16);
-            this.label10.TabIndex = 60;
-            this.label10.Text = "减速时间:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 54);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 16);
-            this.label8.TabIndex = 59;
-            this.label8.Text = "加速时间:";
-            // 
-            // uiGroupBox10
-            // 
-            this.uiGroupBox10.Controls.Add(this.nud_Tacc);
-            this.uiGroupBox10.Controls.Add(this.nud_Tdec);
-            this.uiGroupBox10.Controls.Add(this.label8);
-            this.uiGroupBox10.Controls.Add(this.label10);
-            this.uiGroupBox10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiGroupBox10.Location = new System.Drawing.Point(781, 5);
-            this.uiGroupBox10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiGroupBox10.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiGroupBox10.Name = "uiGroupBox10";
-            this.uiGroupBox10.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox10.RectDisableColor = System.Drawing.Color.White;
-            this.uiGroupBox10.Size = new System.Drawing.Size(204, 170);
-            this.uiGroupBox10.TabIndex = 63;
-            this.uiGroupBox10.Text = "时间";
-            this.uiGroupBox10.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // HydropParmart
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1244,7 +1244,7 @@
             this.Name = "HydropParmart";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "参数配置";
-            this.Load += new System.EventHandler(this.HydropParmart_Load);
+            this.Load += new System.EventHandler(this.HydropParmart_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.qswz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.qssd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.qsyl)).EndInit();
@@ -1252,6 +1252,10 @@
             this.uiGroupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.uiGroupBox10.ResumeLayout(false);
+            this.uiGroupBox10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Tacc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Tdec)).EndInit();
             this.uiGroupBox9.ResumeLayout(false);
             this.uiGroupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kmwz4)).EndInit();
@@ -1292,10 +1296,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.yxwz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yxsd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yxyl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Tdec)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Tacc)).EndInit();
-            this.uiGroupBox10.ResumeLayout(false);
-            this.uiGroupBox10.PerformLayout();
             this.ResumeLayout(false);
 
         }

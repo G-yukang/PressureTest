@@ -8,30 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TestMain.Interfaces;
 
-namespace TestMain
+namespace TestMain.Controls
 {
-    public partial class Main : UIForm2
+    public partial class LogRecord : UIPage
     {
-        public Main()
+        public LogRecord()
         {
             InitializeComponent();
-
-
         }
-        private void Main_Load(object sender, EventArgs e)
-        {
-
-            InitializeNavigationMenu();
-        }
-
-        private void InitializeNavigationMenu()
-        {
-        }
-
-
-
     }
 }
-

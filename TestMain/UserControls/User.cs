@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestMain.Common;
+using TestMain.Controls;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TestMain.UserControls
@@ -15,6 +17,8 @@ namespace TestMain.UserControls
     public partial class User : UserControl
     {
         private HydropressTest hydropressTest;
+        private LogRecord logRecord;
+        private Alarm alarm;
         public User()
         {
             InitializeComponent();
@@ -28,6 +32,7 @@ namespace TestMain.UserControls
         //权限
         public void Authority(string auth) 
         {
+            uiPanel1.Controls.Clear();
             switch (auth)
             {
                 case "首页":
@@ -37,6 +42,18 @@ namespace TestMain.UserControls
                     uiPanel1.Controls.Add(hydropressTest);
                     hydropressTest.Dock = DockStyle.Fill;
                     hydropressTest.Show();
+                    break;
+                case "报警信息":
+                    logRecord = new LogRecord();
+                    uiPanel1.Controls.Add(logRecord);
+                    logRecord.Dock = DockStyle.Fill;
+                    logRecord.Show();
+                    break;
+                case "日志记录":
+                    alarm = new Alarm();
+                    uiPanel1.Controls.Add(alarm);
+                    alarm.Dock = DockStyle.Fill;
+                    alarm.Show();
                     break;
                 case "关于":
                     break;

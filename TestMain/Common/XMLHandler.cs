@@ -4,21 +4,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using TestMain.Controls;
 
 public class XmlHandler<T>
 {
     private string _filePath;
-
+    HydropParmart hydropParmart=new HydropParmart();
     public XmlHandler()
     {
         string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        _filePath = rootDirectory + "HydropressXML.xml";
+        _filePath = rootDirectory + "\\bin\\FileConfig\\" + "HydropressXML.xml";
 
         // 检查文件是否存在
         if (!File.Exists(_filePath))
         {
             // 文件不存在，创建新文件
             CreateFile(_filePath);
+
+            hydropParmart.XmlWriteDateAnalysis();
         }
 
     }

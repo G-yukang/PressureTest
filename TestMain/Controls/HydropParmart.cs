@@ -1,27 +1,13 @@
-﻿using MongoDB.Bson;
-using Sunny.UI;
+﻿using Sunny.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
-using TestMain.BLL;
-using TestMain.Interfaces;
 using TestMain.Model;
 
 namespace TestMain.Controls
 {
     public partial class HydropParmart : Form
     {
-        HydropressBLL Hydropressbll = new HydropressBLL();
-
         XmlHandler<HydropressModel> xmlFileManager;
         public HydropParmart()
         {
@@ -29,8 +15,16 @@ namespace TestMain.Controls
         }
         public void XmlWriteDateAnalysis()
         {
-            // 写入数据到 XML 文件
-            xmlFileManager.WriteToFile(DataAnalysis());
+            try
+            {
+                // 写入数据到 XML 文件
+                bool res = xmlFileManager.WriteToFile(DataAnalysisDefault());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
         public void XmlReadyDateAnalysis()
         {
@@ -192,7 +186,6 @@ namespace TestMain.Controls
                 this.ShowErrorNotifier("保存失败");
             }
         }
-
         public HydropressModel DataAnalysis()
         {
             var model = new HydropressModel
@@ -239,16 +232,60 @@ namespace TestMain.Controls
             };
             return model;
         }
+        public HydropressModel DataAnalysisDefault()
+        {
+            var model = new HydropressModel
+            {
+                Id = 1,
+                TimeAcc = "2000",
+                TimeDec = "1",
+                Pressurestart = new List<Start>
+                {
+                    new Start { Location = "1", Spleed = "1", Pressure = "1"}
+                },
+                PressureOperation = new List<Operation>
+                {
+                    new Operation  { Location = "2", Spleed = "2", Pressure = "2"}
+                },
+                PressureClose = new List<Close>
+                {
+                    new Close  { Location = "3", Spleed = "3", Pressure = "3"}
+                },
+                PressureMoldingFront = new List<MoldingFront>
+                {
+                    new MoldingFront  { Location = "4", Spleed = "4", Pressure = "4"}
+                },
+                PressureMolding = new List<Molding>
+                {
+                    new Molding  { Location = "5", Spleed = "5", Pressure = "5"}
+                },
+                PressureOpenmould1 = new List<Openmould1>
+                {
+                    new Openmould1 { Location = "6", Spleed = "6", Pressure = "6"}
+                },
+                PressureOpenmould2 = new List<Openmould2>
+                {
+                    new Openmould2  { Location = "7", Spleed = "7", Pressure = "7"}
+                },
+                PressureOpenmould3 = new List<Openmould3>
+                {
+                    new Openmould3  { Location = "8", Spleed = "8", Pressure = "8"}
+                },
+                PressureOpenmould4 = new List<Openmould4>
+                {
+                    new Openmould4  { Location = "9", Spleed = "9", Pressure = "9"}
+                }
+            };
+            return model;
+        }
         private void uiButton2_Click(object sender, EventArgs e)
         {
             Close();
         }
-
-        private void HydropParmart_Load(object sender, EventArgs e)
+        private void HydropParmart_Load_1(object sender, EventArgs e)
         {
             xmlFileManager = new XmlHandler<HydropressModel>();
             XmlReadyDateAnalysis();
         }
-
     }
 }

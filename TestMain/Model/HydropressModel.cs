@@ -70,9 +70,7 @@ namespace TestMain.Model
         public string Location { get; set; }
         public string Spleed { get; set; }
         public string Pressure { get; set; }
-    }
-  
- 
+    }  
     public class Openmould1
     {
         public string Location { get; set; }
