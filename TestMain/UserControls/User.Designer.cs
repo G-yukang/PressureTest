@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("首页");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("液压机");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("电压机");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("模块", new System.Windows.Forms.TreeNode[] {
             treeNode2});
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("数据查询");
@@ -64,7 +64,7 @@
             treeNode1.Name = "节点0";
             treeNode1.Text = "首页";
             treeNode2.Name = "节点1";
-            treeNode2.Text = "液压机";
+            treeNode2.Text = "电压机";
             treeNode3.Name = "节点0";
             treeNode3.Text = "模块";
             treeNode4.Name = "节点4";

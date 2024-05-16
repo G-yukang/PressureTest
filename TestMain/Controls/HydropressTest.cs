@@ -32,21 +32,20 @@ namespace TestMain
         private double bhyl;                //压力闭合
         private double kmyl;                //压力开模
 
-
         ushort _CardID = 0;                 //轴机ID
         double PressureVD = 0;              //压力      
         double CurrentPos = 0;              //当前位置  
         double dCmdPos = 0;                 //指令位置
         double CurSpeed = 0;                //当前速度
         double dEnPos = 0;                  //编码器反馈位置
-
         private ushort usCardNum = 0;       //IO
-
-        XmlHandler<HydropressModel> xmlFileManager = new XmlHandler<HydropressModel>();
 
         Label[] arrLabel = new Label[8];
         private List<PointF> arrPonitList = new List<PointF>();
-        System.Windows.Forms.Button[] arrButton = new System.Windows.Forms.Button[8];//定义输出IO的按钮控件
+        //定义输出IO的按钮控件
+        System.Windows.Forms.Button[] arrButton = new System.Windows.Forms.Button[8];
+
+        XmlHandler<HydropressModel> xmlFileManager = new XmlHandler<HydropressModel>();
         #endregion
 
         public HydropressTest()
@@ -59,7 +58,11 @@ namespace TestMain
             {
                 short num = LTDMC.dmc_board_init();
                 //控制卡初始化，获取卡数量
-                if (num <= 0 || num > 8) { textBox5.Text = "初始卡失败!\", \"出错"; }
+                if (num <= 0 || num > 8)
+                {
+                    this.ShowWarningDialog("初始卡失败!出错");
+                    richTextBox_Message.AppendText("初始卡失败!出错");
+                }
                 ushort _num = 0;
                 ushort[] cardids = new ushort[8];
                 uint[] cardtypes = new uint[8];
@@ -233,8 +236,7 @@ namespace TestMain
         {
             try
             {
-                richTextBox_Message.Text = "";
-                richTextBox_Message.AppendText("请勿操作，总线卡硬件复位进行中……" + "\n");
+                richTextBox_Message.AppendText("请勿操作，总线卡硬件复位进行中……预计30s时间" + "\n");
                 button_HardwareReset.Enabled = false;
                 LTDMC.dmc_board_reset();
                 LTDMC.dmc_board_close();
@@ -246,11 +248,10 @@ namespace TestMain
                 }
 
                 LTDMC.dmc_board_init();
-                richTextBox_Message.AppendText("总线卡硬件复位完成,请确认总线状态");
+                richTextBox_Message.AppendText("总线卡硬件复位完成" + "\n");
                 button_HardwareReset.Enabled = true;
                 button_HardwareReset.Focus();
 
-                richTextBox_Message.Text = "";
                 richTextBox_Message.AppendText("请勿操作，总线卡软件复位进行中……" + "\n");
                 button_HardwareReset.Enabled = false;
                 //Application.DoEvents();
@@ -302,9 +303,9 @@ namespace TestMain
             //压力实施检测启动
             simtimer.Start();
             //等待保压度和设置度
-            for (double i = PressureVD; i <= PressureVD;)
+            for (double i = PressureVD; i <= bhyl;)
             {
-
+                i++;
             }
             //开模关闭压力检测
             simtimer.Stop();
@@ -502,5 +503,11 @@ namespace TestMain
             { LTDMC.dmc_write_outbit(usCardNum, 7, 0); }    //输出低电平
         }
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //在线变位
+            LTDMC.dmc_reset_target_position_unit(_CardID, 0, uiDoubleUpDown2.Value);
+        }
     }
 }

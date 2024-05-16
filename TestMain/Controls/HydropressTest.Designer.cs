@@ -32,13 +32,17 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.uiPanel2 = new Sunny.UI.UIPanel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.uiLabel1 = new Sunny.UI.UILabel();
+            this.uiButton2 = new Sunny.UI.UIButton();
             this.uiGroupBox14 = new Sunny.UI.UIGroupBox();
             this.IOIn = new System.Windows.Forms.GroupBox();
             this.IOout = new System.Windows.Forms.GroupBox();
             this.uiGroupBox1 = new Sunny.UI.UIGroupBox();
             this.richTextBox_Message = new System.Windows.Forms.RichTextBox();
             this.uiPanel5 = new Sunny.UI.UIPanel();
+            this.uiGroupBox15 = new Sunny.UI.UIGroupBox();
+            this.uiLabel4 = new Sunny.UI.UILabel();
+            this.uiDoubleUpDown2 = new Sunny.UI.UIDoubleUpDown();
+            this.button1 = new System.Windows.Forms.Button();
             this.uiGroupBox12 = new Sunny.UI.UIGroupBox();
             this.label43 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -56,8 +60,9 @@
             this.sun_Speed = new System.Windows.Forms.TextBox();
             this.label48 = new System.Windows.Forms.Label();
             this.label49 = new System.Windows.Forms.Label();
-            this.uiButton2 = new Sunny.UI.UIButton();
             this.uiGroupBox13 = new Sunny.UI.UIGroupBox();
+            this.uiLabel2 = new Sunny.UI.UILabel();
+            this.uiLabel1 = new Sunny.UI.UILabel();
             this.nud_TaccDec = new Sunny.UI.UIDoubleUpDown();
             this.nud_NewVel = new Sunny.UI.UIDoubleUpDown();
             this.btn_ChangeVel = new System.Windows.Forms.Button();
@@ -136,14 +141,13 @@
             this.State = new Sunny.UI.UILabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.simtimer = new System.Windows.Forms.Timer(this.components);
-            this.uiLabel2 = new Sunny.UI.UILabel();
-            this.uiHeaderButton1 = new Sunny.UI.UIHeaderButton();
             this.panel1.SuspendLayout();
             this.uiPanel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.uiGroupBox14.SuspendLayout();
             this.uiGroupBox1.SuspendLayout();
             this.uiPanel5.SuspendLayout();
+            this.uiGroupBox15.SuspendLayout();
             this.uiGroupBox12.SuspendLayout();
             this.uiGroupBox13.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -168,7 +172,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1700, 871);
+            this.panel1.Size = new System.Drawing.Size(1700, 971);
             this.panel1.TabIndex = 41;
             // 
             // uiPanel2
@@ -180,14 +184,13 @@
             this.uiPanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiPanel2.Name = "uiPanel2";
-            this.uiPanel2.Size = new System.Drawing.Size(1700, 823);
+            this.uiPanel2.Size = new System.Drawing.Size(1700, 923);
             this.uiPanel2.TabIndex = 41;
             this.uiPanel2.Text = "uiPanel2";
             this.uiPanel2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.uiHeaderButton1);
             this.panel3.Controls.Add(this.uiGroupBox14);
             this.panel3.Controls.Add(this.uiGroupBox1);
             this.panel3.Controls.Add(this.uiPanel5);
@@ -198,19 +201,21 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1700, 823);
+            this.panel3.Size = new System.Drawing.Size(1700, 923);
             this.panel3.TabIndex = 40;
             // 
-            // uiLabel1
+            // uiButton2
             // 
-            this.uiLabel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel1.Location = new System.Drawing.Point(22, 43);
-            this.uiLabel1.Name = "uiLabel1";
-            this.uiLabel1.Size = new System.Drawing.Size(88, 23);
-            this.uiLabel1.TabIndex = 60;
-            this.uiLabel1.Text = "运行速度:";
-            this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiButton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.uiButton2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButton2.Location = new System.Drawing.Point(80, 668);
+            this.uiButton2.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButton2.Name = "uiButton2";
+            this.uiButton2.Size = new System.Drawing.Size(151, 50);
+            this.uiButton2.TabIndex = 0;
+            this.uiButton2.Text = "参数配置";
+            this.uiButton2.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButton2.Click += new System.EventHandler(this.uiButton2_Click);
             // 
             // uiGroupBox14
             // 
@@ -272,8 +277,9 @@
             // 
             // uiPanel5
             // 
-            this.uiPanel5.Controls.Add(this.uiGroupBox12);
             this.uiPanel5.Controls.Add(this.uiButton2);
+            this.uiPanel5.Controls.Add(this.uiGroupBox15);
+            this.uiPanel5.Controls.Add(this.uiGroupBox12);
             this.uiPanel5.Controls.Add(this.uiGroupBox13);
             this.uiPanel5.Dock = System.Windows.Forms.DockStyle.Right;
             this.uiPanel5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -281,10 +287,61 @@
             this.uiPanel5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel5.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiPanel5.Name = "uiPanel5";
-            this.uiPanel5.Size = new System.Drawing.Size(300, 647);
+            this.uiPanel5.Size = new System.Drawing.Size(300, 747);
             this.uiPanel5.TabIndex = 46;
             this.uiPanel5.Text = null;
             this.uiPanel5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // uiGroupBox15
+            // 
+            this.uiGroupBox15.Controls.Add(this.uiLabel4);
+            this.uiGroupBox15.Controls.Add(this.uiDoubleUpDown2);
+            this.uiGroupBox15.Controls.Add(this.button1);
+            this.uiGroupBox15.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiGroupBox15.Location = new System.Drawing.Point(3, 496);
+            this.uiGroupBox15.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiGroupBox15.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiGroupBox15.Name = "uiGroupBox15";
+            this.uiGroupBox15.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
+            this.uiGroupBox15.Size = new System.Drawing.Size(293, 146);
+            this.uiGroupBox15.TabIndex = 60;
+            this.uiGroupBox15.Text = "在线变位";
+            this.uiGroupBox15.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel4
+            // 
+            this.uiLabel4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel4.Location = new System.Drawing.Point(22, 43);
+            this.uiLabel4.Name = "uiLabel4";
+            this.uiLabel4.Size = new System.Drawing.Size(88, 29);
+            this.uiLabel4.TabIndex = 60;
+            this.uiLabel4.Text = "运行速度:";
+            this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiDoubleUpDown2
+            // 
+            this.uiDoubleUpDown2.DecimalPlaces = 3;
+            this.uiDoubleUpDown2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiDoubleUpDown2.Location = new System.Drawing.Point(117, 43);
+            this.uiDoubleUpDown2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiDoubleUpDown2.MinimumSize = new System.Drawing.Size(100, 0);
+            this.uiDoubleUpDown2.Name = "uiDoubleUpDown2";
+            this.uiDoubleUpDown2.ShowText = false;
+            this.uiDoubleUpDown2.Size = new System.Drawing.Size(124, 29);
+            this.uiDoubleUpDown2.TabIndex = 16;
+            this.uiDoubleUpDown2.Text = "uiDoubleUpDown1";
+            this.uiDoubleUpDown2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(80, 87);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(119, 39);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "在线变位";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // uiGroupBox12
             // 
@@ -468,19 +525,6 @@
             this.label49.TabIndex = 17;
             this.label49.Text = "当前位置:";
             // 
-            // uiButton2
-            // 
-            this.uiButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButton2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton2.Location = new System.Drawing.Point(68, 354);
-            this.uiButton2.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButton2.Name = "uiButton2";
-            this.uiButton2.Size = new System.Drawing.Size(151, 50);
-            this.uiButton2.TabIndex = 0;
-            this.uiButton2.Text = "参数配置";
-            this.uiButton2.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton2.Click += new System.EventHandler(this.uiButton2_Click);
-            // 
             // uiGroupBox13
             // 
             this.uiGroupBox13.Controls.Add(this.uiLabel2);
@@ -489,15 +533,37 @@
             this.uiGroupBox13.Controls.Add(this.nud_NewVel);
             this.uiGroupBox13.Controls.Add(this.btn_ChangeVel);
             this.uiGroupBox13.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiGroupBox13.Location = new System.Drawing.Point(3, 470);
+            this.uiGroupBox13.Location = new System.Drawing.Point(3, 303);
             this.uiGroupBox13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiGroupBox13.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox13.Name = "uiGroupBox13";
             this.uiGroupBox13.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox13.Size = new System.Drawing.Size(293, 172);
+            this.uiGroupBox13.Size = new System.Drawing.Size(293, 190);
             this.uiGroupBox13.TabIndex = 58;
             this.uiGroupBox13.Text = "在线变速";
             this.uiGroupBox13.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel2
+            // 
+            this.uiLabel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel2.Location = new System.Drawing.Point(22, 89);
+            this.uiLabel2.Name = "uiLabel2";
+            this.uiLabel2.Size = new System.Drawing.Size(88, 23);
+            this.uiLabel2.TabIndex = 61;
+            this.uiLabel2.Text = "变速时间:";
+            this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel1
+            // 
+            this.uiLabel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel1.Location = new System.Drawing.Point(22, 43);
+            this.uiLabel1.Name = "uiLabel1";
+            this.uiLabel1.Size = new System.Drawing.Size(88, 23);
+            this.uiLabel1.TabIndex = 60;
+            this.uiLabel1.Text = "运行速度:";
+            this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // nud_TaccDec
             // 
@@ -529,7 +595,7 @@
             // 
             // btn_ChangeVel
             // 
-            this.btn_ChangeVel.Location = new System.Drawing.Point(65, 120);
+            this.btn_ChangeVel.Location = new System.Drawing.Point(80, 134);
             this.btn_ChangeVel.Name = "btn_ChangeVel";
             this.btn_ChangeVel.Size = new System.Drawing.Size(119, 39);
             this.btn_ChangeVel.TabIndex = 1;
@@ -541,7 +607,7 @@
             // 
             this.panel4.Controls.Add(this.uiGroupBox11);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 647);
+            this.panel4.Location = new System.Drawing.Point(0, 747);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1700, 176);
             this.panel4.TabIndex = 45;
@@ -1291,7 +1357,7 @@
             // 
             // button_HardwareReset
             // 
-            this.button_HardwareReset.Location = new System.Drawing.Point(1177, 559);
+            this.button_HardwareReset.Location = new System.Drawing.Point(1199, 662);
             this.button_HardwareReset.Margin = new System.Windows.Forms.Padding(4);
             this.button_HardwareReset.Name = "button_HardwareReset";
             this.button_HardwareReset.Size = new System.Drawing.Size(153, 54);
@@ -1302,10 +1368,10 @@
             // 
             // btn_Start
             // 
-            this.btn_Start.Location = new System.Drawing.Point(841, 554);
+            this.btn_Start.Location = new System.Drawing.Point(790, 661);
             this.btn_Start.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Start.Name = "btn_Start";
-            this.btn_Start.Size = new System.Drawing.Size(163, 57);
+            this.btn_Start.Size = new System.Drawing.Size(154, 57);
             this.btn_Start.TabIndex = 55;
             this.btn_Start.Text = "开始";
             this.btn_Start.UseVisualStyleBackColor = true;
@@ -1313,7 +1379,7 @@
             // 
             // btn_Stop
             // 
-            this.btn_Stop.Location = new System.Drawing.Point(1016, 556);
+            this.btn_Stop.Location = new System.Drawing.Point(1004, 661);
             this.btn_Stop.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Stop.Name = "btn_Stop";
             this.btn_Stop.Size = new System.Drawing.Size(153, 57);
@@ -1328,13 +1394,12 @@
             this.uiPanel1.Controls.Add(this.uiPanelstate);
             this.uiPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.uiPanel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiPanel1.Location = new System.Drawing.Point(0, 823);
+            this.uiPanel1.Location = new System.Drawing.Point(0, 923);
             this.uiPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiPanel1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiPanel1.Name = "uiPanel1";
             this.uiPanel1.Size = new System.Drawing.Size(1700, 48);
             this.uiPanel1.TabIndex = 40;
-            this.uiPanel1.Text = "uiPanel1";
             this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // uiButton1
@@ -1397,38 +1462,12 @@
             // 
             this.simtimer.Tick += new System.EventHandler(this.simtimer_Tick);
             // 
-            // uiLabel2
-            // 
-            this.uiLabel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel2.Location = new System.Drawing.Point(22, 89);
-            this.uiLabel2.Name = "uiLabel2";
-            this.uiLabel2.Size = new System.Drawing.Size(88, 23);
-            this.uiLabel2.TabIndex = 61;
-            this.uiLabel2.Text = "变速时间:";
-            this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // uiHeaderButton1
-            // 
-            this.uiHeaderButton1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiHeaderButton1.Location = new System.Drawing.Point(-15, -50);
-            this.uiHeaderButton1.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiHeaderButton1.Name = "uiHeaderButton1";
-            this.uiHeaderButton1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 3);
-            this.uiHeaderButton1.Radius = 0;
-            this.uiHeaderButton1.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
-            this.uiHeaderButton1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
-            this.uiHeaderButton1.Size = new System.Drawing.Size(100, 88);
-            this.uiHeaderButton1.TabIndex = 61;
-            this.uiHeaderButton1.Text = "uiHeaderButton1";
-            this.uiHeaderButton1.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            // 
             // HydropressTest
             // 
             this.AllowShowTitle = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1700, 906);
+            this.ClientSize = new System.Drawing.Size(1700, 1006);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "HydropressTest";
@@ -1444,6 +1483,7 @@
             this.uiGroupBox14.ResumeLayout(false);
             this.uiGroupBox1.ResumeLayout(false);
             this.uiPanel5.ResumeLayout(false);
+            this.uiGroupBox15.ResumeLayout(false);
             this.uiGroupBox12.ResumeLayout(false);
             this.uiGroupBox12.PerformLayout();
             this.uiGroupBox13.ResumeLayout(false);
@@ -1582,6 +1622,9 @@
         private Sunny.UI.UIDoubleUpDown nud_TaccDec;
         private Sunny.UI.UIDoubleUpDown nud_NewVel;
         private Sunny.UI.UILabel uiLabel2;
-        private Sunny.UI.UIHeaderButton uiHeaderButton1;
+        private Sunny.UI.UIGroupBox uiGroupBox15;
+        private Sunny.UI.UILabel uiLabel4;
+        private Sunny.UI.UIDoubleUpDown uiDoubleUpDown2;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -37,7 +37,7 @@ namespace TestMain.UserControls
             {
                 case "首页":
                     break;
-                case "液压机":
+                case "电压机":
                     hydropressTest = new HydropressTest();
                     uiPanel1.Controls.Add(hydropressTest);
                     hydropressTest.Dock = DockStyle.Fill;
