@@ -194,6 +194,7 @@
   <ItemGroup>
     <Compile Include="Common\AlarmLogger.cs" />
     <Compile Include="Common\PLCS7Log.cs" />
+    <Compile Include="Common\INIHandler.cs" />
     <Compile Include="Controls\Alarm.cs">
       <SubType>Form</SubType>
     </Compile>
