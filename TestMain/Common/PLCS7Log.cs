@@ -59,6 +59,7 @@ namespace TestMain.Common
             readTimer.Elapsed += ReadTimer_Elapsed;
             reConnectTimer.Elapsed += ReConnectTimer_Elapsed;
         }
+
         public bool Connected
         {
             get

@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 using TestMain.Controls;
 using TestMain.Model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace TestMain
 {
@@ -46,6 +48,18 @@ namespace TestMain
         System.Windows.Forms.Button[] arrButton = new System.Windows.Forms.Button[8];
 
         XmlHandler<HydropressModel> xmlFileManager = new XmlHandler<HydropressModel>();
+
+        //压机
+        private ushort cardNo = 0;                   // 例子中的卡号
+        private ushort portNum = 1;                  // 端口号
+        private ushort actualTorqueAddress = 0x6077; //实际转矩地址
+        private ushort targetTorqueAddress = 0x6071; //目标转矩地址
+        private ushort dataLen = 4;                  // 数据长度
+        private uint actualValue;                   // 实际示例值
+        private uint targetValue;             // 目标示例值
+
+        private static bool _shouldStop;
+        private Thread thread1;
         #endregion
 
         public HydropressTest()
@@ -61,7 +75,7 @@ namespace TestMain
                 if (num <= 0 || num > 8)
                 {
                     this.ShowWarningDialog("初始卡失败!出错");
-                    richTextBox_Message.AppendText("初始卡失败!出错");
+                    Messagetextbox.AppendText("初始卡失败!出错");
                 }
                 ushort _num = 0;
                 ushort[] cardids = new ushort[8];
@@ -77,6 +91,7 @@ namespace TestMain
             }
             catch (Exception ex)
             {
+                Alarmtextbox.AppendText("初始卡失败!出错" + ex + "\n");
                 throw ex;
             }
 
@@ -85,158 +100,151 @@ namespace TestMain
         #region 定时事件
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-            uiPanel4.Text = DateTime.Now.DateTimeString();
-
-            LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);     // 读取轴当前速度
-            sun_Speed.Text = CurSpeed.ToString();
-
-            int value0 = 0;
-            LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);        //读取压力指令值
-            double value00 = value_AD(0, value0);
-            textBox5.Text = value00.ToString();
-            PressureVD = value00;
-
-            LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);           //读取指定轴指令位置值
-            tb_CurrentPos.Text = dCmdPos.ToString();
-            CurrentPos = dCmdPos;
-
-            LTDMC.dmc_get_encoder_unit(_CardID, 0, ref dEnPos);             //读取指定轴的编码器反馈值
-            tb_Encoder.Text = dEnPos.ToString();
-
-
-            if (LTDMC.dmc_check_done(_CardID, 0) == 0)                      //读取指定轴运动状态
+            try
             {
-                tb_RunState.Text = "运行中";
-            }
-            else
-            {
-                tb_RunState.Text = "停止中";
-            }
+                LTDMC.nmc_read_rxpdo_extra_uint(cardNo, portNum, actualTorqueAddress, dataLen, ref actualValue);
 
-            ushort usAxisStateMachine = 0;
-            LTDMC.nmc_get_axis_state_machine(0, 0, ref usAxisStateMachine);
-            switch (usAxisStateMachine)
-            {
-                case 0:
-                    textBox_StateMachine.Text = "轴处于未启动状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-                case 1:
-                    textBox_StateMachine.Text = "轴处于启动禁止状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-                case 2:
-                    textBox_StateMachine.Text = "轴处于准备启动状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-                case 3:
-                    textBox_StateMachine.Text = "轴处于启动状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-                case 4:
-                    textBox_StateMachine.Text = "轴处于操作使能状态";
-                    textBox_StateMachine.BackColor = Color.Green;
-                    break;
-                case 5:
-                    textBox_StateMachine.Text = "轴处于停止状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-                case 6:
-                    textBox_StateMachine.Text = "轴处于错误触发状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-                case 7:
-                    textBox_StateMachine.Text = "轴处于错误状态";
-                    textBox_StateMachine.BackColor = Color.Red;
-                    break;
-            };
 
-            //读取总线状态
-            ushort usErrorCode = 0;
-            LTDMC.nmc_get_errcode(0, 2, ref usErrorCode);
-            if (usErrorCode == 0)
-            {
-                textBox_EthercatState.Text = "EtherCAT总线正常";
-                textBox_EthercatState.BackColor = Color.Green;
-            }
-            else
-            {
-                textBox_EthercatState.Text = "EtherCAT总线出错";
-                textBox_EthercatState.BackColor = Color.Red;
-            }
+                uiPanel4.Text = DateTime.Now.DateTimeString();
 
-            //IO模拟数据监听
-            for (ushort i = 0; i < 8; i++)
-            {
-                if (LTDMC.dmc_read_inbit(usCardNum, i) == 0)
+                LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);     // 读取轴当前速度
+                sun_Speed.Text = CurSpeed.ToString();
+
+                int value0 = 0;
+                LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);        //读取压力指令值
+                double value00 = value_AD(0, value0);
+                textBox5.Text = value00.ToString();
+                PressureVD = value00;
+
+                LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);           //读取指定轴指令位置值
+                tb_CurrentPos.Text = dCmdPos.ToString();
+                CurrentPos = dCmdPos;
+
+                LTDMC.dmc_get_encoder_unit(_CardID, 0, ref dEnPos);             //读取指定轴的编码器反馈值
+                tb_Encoder.Text = dEnPos.ToString();
+
+
+                if (LTDMC.dmc_check_done(_CardID, 0) == 0)                      //读取指定轴运动状态
                 {
-                    arrLabel[i].BackColor = Color.Green;
+                    tb_RunState.Text = "运行中";
                 }
                 else
                 {
-                    arrLabel[i].BackColor = Color.Red;
+                    tb_RunState.Text = "停止中";
                 }
-            }
 
-            for (ushort i = 0; i < 8; i++)
-            {
-                if (LTDMC.dmc_read_outbit(usCardNum, i) == 0)
+                ushort usAxisStateMachine = 0;
+                LTDMC.nmc_get_axis_state_machine(0, 0, ref usAxisStateMachine);
+                switch (usAxisStateMachine)
                 {
-                    arrButton[i].BackColor = Color.Green;
+                    case 0:
+                        textBox_StateMachine.Text = "轴处于未启动状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                    case 1:
+                        textBox_StateMachine.Text = "轴处于启动禁止状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                    case 2:
+                        textBox_StateMachine.Text = "轴处于准备启动状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                    case 3:
+                        textBox_StateMachine.Text = "轴处于启动状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                    case 4:
+                        textBox_StateMachine.Text = "轴处于操作使能状态";
+                        textBox_StateMachine.BackColor = Color.Green;
+                        break;
+                    case 5:
+                        textBox_StateMachine.Text = "轴处于停止状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                    case 6:
+                        textBox_StateMachine.Text = "轴处于错误触发状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                    case 7:
+                        textBox_StateMachine.Text = "轴处于错误状态";
+                        textBox_StateMachine.BackColor = Color.Red;
+                        break;
+                };
+
+                //读取总线状态
+                ushort usErrorCode = 0;
+                LTDMC.nmc_get_errcode(0, 2, ref usErrorCode);
+                if (usErrorCode == 0)
+                {
+                    textBox_EthercatState.Text = "EtherCAT总线正常";
+                    textBox_EthercatState.BackColor = Color.Green;
                 }
                 else
                 {
-                    arrButton[i].BackColor = Color.Red;
+                    textBox_EthercatState.Text = "EtherCAT总线出错";
+                    textBox_EthercatState.BackColor = Color.Red;
                 }
-            }
 
-            //IO数量
-            ushort usTotalIn = 0;
-            ushort usTotalOut = 0;
-            LTDMC.nmc_get_total_ionum(usCardNum, ref usTotalIn, ref usTotalOut);
+                //IO模拟数据监听
+                for (ushort i = 0; i < 8; i++)
+                {
+                    if (LTDMC.dmc_read_inbit(usCardNum, i) == 0)
+                    {
+                        arrLabel[i].BackColor = Color.Green;
+                    }
+                    else
+                    {
+                        arrLabel[i].BackColor = Color.Red;
+                    }
+                }
+
+                for (ushort i = 0; i < 8; i++)
+                {
+                    if (LTDMC.dmc_read_outbit(usCardNum, i) == 0)
+                    {
+                        arrButton[i].BackColor = Color.Green;
+                    }
+                    else
+                    {
+                        arrButton[i].BackColor = Color.Red;
+                    }
+                }
+
+                //IO数量
+                ushort usTotalIn = 0;
+                ushort usTotalOut = 0;
+                LTDMC.nmc_get_total_ionum(usCardNum, ref usTotalIn, ref usTotalOut);
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("Timer异常!出错" + ex + "\n");
+            }
         }
         private void simtimer_Tick(object sender, EventArgs e)
         {
-            //设定压力值
-            double pressure = qsyl, pressure1 = yxyl, pressure2 = bhyl;
-            double pre = Detection();
-            switch (pre)
-            {
-                case 0:
-                    if (PressureVD >= pressure)
-                    {
-                        //压力报警
-                    }
-                    break;
-                case 1:
-                    if (PressureVD >= pressure1)
-                    {
-                        //压力报警
-                    }
-                    break;
-                case 2:
-                    if (PressureVD >= pressure2)
-                    {
-                        //压力报警
-                    }
-                    break;
-            }
+
         }
         #endregion
 
         #region 按钮事件
         private void btn_ChangeVel_Click(object sender, EventArgs e)
         {
-            double dNewVel = nud_NewVel.Value;               // 新的运行速度
-            double dTaccDec = nud_TaccDec.Value;             //变速时间
-            Speedunit(dNewVel, dTaccDec);
+            try
+            {
+                double dNewVel = nud_NewVel.Value;               // 新的运行速度
+                double dTaccDec = nud_TaccDec.Value;             //变速时间
+                Speedunit(dNewVel, dTaccDec);
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("在线变速!出错" + ex + "\n");
+            }
         }
         private void button_HardwareReset_Click(object sender, EventArgs e)
         {
             try
             {
-                richTextBox_Message.AppendText("请勿操作，总线卡硬件复位进行中……预计30s时间" + "\n");
+                Messagetextbox.AppendText("请勿操作，总线卡硬件复位进行中……预计30s时间" + "\n");
                 button_HardwareReset.Enabled = false;
                 LTDMC.dmc_board_reset();
                 LTDMC.dmc_board_close();
@@ -248,11 +256,11 @@ namespace TestMain
                 }
 
                 LTDMC.dmc_board_init();
-                richTextBox_Message.AppendText("总线卡硬件复位完成" + "\n");
+                Messagetextbox.AppendText("总线卡硬件复位完成" + "\n");
                 button_HardwareReset.Enabled = true;
                 button_HardwareReset.Focus();
 
-                richTextBox_Message.AppendText("请勿操作，总线卡软件复位进行中……" + "\n");
+                Messagetextbox.AppendText("请勿操作，总线卡软件复位进行中……" + "\n");
                 button_HardwareReset.Enabled = false;
                 //Application.DoEvents();
                 LTDMC.dmc_soft_reset(_CardID);
@@ -264,13 +272,13 @@ namespace TestMain
                     Thread.Sleep(1000);
                 }
                 LTDMC.dmc_board_init();
-                richTextBox_Message.AppendText("总线卡软件复位完成,请确认总线状态");
+                Messagetextbox.AppendText("总线卡软件复位完成,请确认总线状态");
                 button_HardwareReset.Enabled = true;
                 button_HardwareReset.Focus();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Alarmtextbox.AppendText("总线卡复位!出错" + ex + "\n");
                 throw;
             }
 
@@ -291,29 +299,151 @@ namespace TestMain
 
             }
         }
+        // 修改压机参数
+        private void uiButton3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                cardNo = Convert.ToUInt16(carnotext.Text);                   // 例子中的卡号
+                portNum = Convert.ToUInt16(prottext.Text);                   // 端口号
+                actualTorqueAddress = Convert.ToUInt16(actualtext.Text, 16);   //实际转矩地址
+                targetTorqueAddress = Convert.ToUInt16(targettext.Text, 16);     //目标转矩地址
+                dataLen = Convert.ToUInt16(lenghtleng.Text);                  // 数据长度
+                actualValue = Convert.ToUInt16(actualdate.Value);                   // 实际示例值
+                targetValue = Convert.ToUInt16(targetdate.Value);                   // 目标示例值
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("修改压机参数!出错" + ex + "\n");
+                throw;
+            }
+
+        }
         private void btn_Start_Click(object sender, EventArgs e)
         {
-            arrPonitList.Clear();
-
-            RedingDate();
-            //下压速度变化
-            LTDMC.dmc_set_profile_unit(_CardID, 0, dStartVel, dMaxVel, dTacc, dTdec, dStopVel);
-            //下压
-            LTDMC.dmc_vmove(_CardID, 0, 1);
-            //压力实施检测启动
-            simtimer.Start();
-            //等待保压度和设置度
-            for (double i = PressureVD; i <= bhyl;)
+            try
             {
-                i++;
-            }
-            //开模关闭压力检测
-            simtimer.Stop();
-            //开模速度变化
-            LTDMC.dmc_set_profile_unit(_CardID, 0, dStartVel, dMaxVel, dTacc, dTdec, dStopVel);
-            //上升
-            LTDMC.dmc_vmove(0, 0, 0);
+                // 防止多次点击启动多个线程
+                if (thread1 != null && thread1.IsAlive)
+                {
+                    return;
+                }
 
+                _shouldStop = false;
+                arrPonitList.Clear();
+                RedingDate();
+
+                thread1 = new Thread(new ThreadStart(ThreadMethod));
+                thread1.IsBackground = true; // 设置为后台线程
+                thread1.Start();
+
+                //下压速度变化
+                LTDMC.dmc_set_profile_unit(_CardID, 0, dStartVel, dMaxVel, dTacc, dTdec, dStopVel);
+                //下压
+                LTDMC.dmc_vmove(_CardID, 0, 1);
+
+                //等待保压
+                thread1.Join();
+
+
+                //开模关闭压力检测
+                simtimer.Stop();
+                //开模速度变化
+                LTDMC.dmc_set_profile_unit(_CardID, 0, dStartVel, dMaxVel, dTacc, dTdec, dStopVel);
+                //上升
+                LTDMC.dmc_vmove(_CardID, 0, 0);
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("启动流程!出错" + ex + "\n");
+                throw;
+            }
+        }
+        public void ThreadMethod()
+        {
+            try
+            {
+                LTDMC.nmc_write_rxpdo_extra_uint(cardNo, portNum, targetTorqueAddress, dataLen, targetValue);
+                while (!_shouldStop)
+                {
+                    //设定压力值
+                    double pressure = qsyl, pressure1 = yxyl, pressure2 = bhyl;
+                    double pre = Detection();
+                    switch (pre)
+                    {
+                        case 0:
+                            if (PressureVD >= pressure)
+                            {
+                                //压力报警
+                            }
+                            break;
+                        case 1:
+                            if (PressureVD >= pressure1)
+                            {
+                                //压力报警
+                            }
+                            break;
+                        case 2:
+                            if (PressureVD >= pressure2)
+                            {
+                                //压力报警
+                            }
+                            break;
+                    }
+
+                    //等待保压度和设置度
+                    for (double i = PressureVD; i <= bhyl;)
+                    {
+                        i++;
+                    }
+
+                    // 等待保压度和设置度，避免忙等待
+                    Thread.Sleep(100); // 每100ms检查一次
+                }
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("启动子线程!出错" + ex + "\n");
+                throw;
+            }
+
+        }
+        private void StopThread()
+        {
+            try
+            {
+                if (thread1 != null && thread1.IsAlive)
+                {
+                    _shouldStop = true; // 设置标志变量
+
+                    // 使用一个新线程来等待 thread1 退出，避免阻塞UI线程
+                    new Thread(() =>
+                    {
+                        thread1.Join(); // 等待线程安全退出
+                        thread1 = null; // 清空线程引用
+                    }).Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("暂停程序!出错" + ex + "\n");
+                throw;
+            }
+
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            StopThread();
+            base.OnFormClosing(e);
+        }
+        private void btn_Stop_Click(object sender, EventArgs e)
+        {
+            StopThread();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //在线变位
+            LTDMC.dmc_reset_target_position_unit(_CardID, 0, uiDoubleUpDown2.Value);
         }
         #endregion
 
@@ -321,83 +451,111 @@ namespace TestMain
         //获取当前位置压力值
         public double Detection()
         {
-            double pos = qswz, pos1 = yxwz, pos2 = bhwz;
-            //起始-运行  
-            if (CurrentPos <= pos && CurrentPos > pos1 && CurrentPos > pos2)
-            { return 0; }
-            //运行-闭合 
-            else if (CurrentPos < pos && CurrentPos <= pos1 && CurrentPos > pos2)
-            { return 1; }
-            //最初位置 
-            else if (CurrentPos < pos && CurrentPos < pos1 && CurrentPos >= pos2)
-            { return 2; }
+            try
+            {
+                double pos = qswz, pos1 = yxwz, pos2 = bhwz;
+                //起始-运行  
+                if (CurrentPos <= pos && CurrentPos > pos1 && CurrentPos > pos2)
+                { return 0; }
+                //运行-闭合 
+                else if (CurrentPos < pos && CurrentPos <= pos1 && CurrentPos > pos2)
+                { return 1; }
+                //最初位置 
+                else if (CurrentPos < pos && CurrentPos < pos1 && CurrentPos >= pos2)
+                { return 2; }
 
-            return 0;
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Alarmtextbox.AppendText("获取当前位置压力值!出错" + ex + "\n");
+                throw;
+            }
+
         }
+        //参数配置
         private void RedingDate()
         {
-            HydropressModel dataFromFile = xmlFileManager.ReadFromFile();
-            foreach (var item in dataFromFile.Pressurestart)
+            try
             {
-                qswz = double.Parse(item.Location);     //起始位置
-                dStartVel = double.Parse(item.Spleed);  //起始速度
-                qsyl = double.Parse(item.Pressure);
+                HydropressModel dataFromFile = xmlFileManager.ReadFromFile();
+                foreach (var item in dataFromFile.Pressurestart)
+                {
+                    qswz = double.Parse(item.Location);     //起始位置
+                    dStartVel = double.Parse(item.Spleed);  //起始速度
+                    qsyl = double.Parse(item.Pressure);
+                }
+                foreach (var item in dataFromFile.PressureOperation)
+                {
+                    yxwz = double.Parse(item.Location);     //运行位置
+                    dMaxVel = double.Parse(item.Spleed);    //运行速度
+                    yxyl = double.Parse(item.Pressure);
+                }
+                foreach (var item in dataFromFile.Pressurestart)
+                {
+                    bhwz = double.Parse(item.Location);     //闭合位置
+                    dStopVel = double.Parse(item.Spleed);   //停止速度
+                    bhyl = double.Parse(item.Pressure);
+                }
+                foreach (var item in dataFromFile.Pressurestart)
+                {
+                    kmwz1 = double.Parse(item.Location);     //开模位置
+                    HdStartVel = double.Parse(item.Spleed);  //开模速度
+                    kmyl = double.Parse(item.Pressure);
+                }
+                foreach (var item in dataFromFile.Pressurestart)
+                {
+                    kmwz2 = double.Parse(item.Location);    //开模位置
+                    HdMaxVel = double.Parse(item.Spleed);   //开模速度
+                }
+                foreach (var item in dataFromFile.Pressurestart)
+                {
+                    kmwz3 = double.Parse(item.Location);     //开模位置
+                    HdStopVel = double.Parse(item.Spleed);   //开模速度
+                }
+                dTacc = double.Parse(dataFromFile.TimeAcc);    //加速时间
+                dTdec = double.Parse(dataFromFile.TimeDec);    //减速时间
             }
-            foreach (var item in dataFromFile.PressureOperation)
+            catch (Exception ex)
             {
-                yxwz = double.Parse(item.Location);     //运行位置
-                dMaxVel = double.Parse(item.Spleed);    //运行速度
-                yxyl = double.Parse(item.Pressure);
+                Alarmtextbox.AppendText("参数配置!出错" + ex + "\n");
+                throw;
             }
-            foreach (var item in dataFromFile.Pressurestart)
-            {
-                bhwz = double.Parse(item.Location);     //闭合位置
-                dStopVel = double.Parse(item.Spleed);   //停止速度
-                bhyl = double.Parse(item.Pressure);
-            }
-            foreach (var item in dataFromFile.Pressurestart)
-            {
-                kmwz1 = double.Parse(item.Location);     //开模位置
-                HdStartVel = double.Parse(item.Spleed);  //开模速度
-                kmyl = double.Parse(item.Pressure);
-            }
-            foreach (var item in dataFromFile.Pressurestart)
-            {
-                kmwz2 = double.Parse(item.Location);    //开模位置
-                HdMaxVel = double.Parse(item.Spleed);   //开模速度
-            }
-            foreach (var item in dataFromFile.Pressurestart)
-            {
-                kmwz3 = double.Parse(item.Location);     //开模位置
-                HdStopVel = double.Parse(item.Spleed);   //开模速度
-            }
-            dTacc = double.Parse(dataFromFile.TimeAcc);    //加速时间
-            dTdec = double.Parse(dataFromFile.TimeDec);    //减速时间
+
         }
         //电压
         double value_AD(ushort SubIndex, int value)
         {
-            int Value = 0;
-            double _value = 1;
-            LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
-            if (Value == 0)//电压模式量程±5V
+            try
             {
-                _value = value * 5 / 32000.0;
+                int Value = 0;
+                double _value = 1;
+                LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
+                if (Value == 0)//电压模式量程±5V
+                {
+                    _value = value * 5 / 32000.0;
+                }
+                else if (Value == 1)//电压模式量程1-5V
+                {
+                    _value = value * 4 / 32000.0 + 1;
+                }
+                else if (Value == 2)//电压模式量程±10V
+                {
+                    _value = value * 10 / 32000.0;
+                }
+                else if (Value == 3)//电压模式量程0-10V
+                {
+                    _value = value * 10 / 32000.0;
+                }
+
+                return _value;
             }
-            else if (Value == 1)//电压模式量程1-5V
+            catch (Exception ex)
             {
-                _value = value * 4 / 32000.0 + 1;
-            }
-            else if (Value == 2)//电压模式量程±10V
-            {
-                _value = value * 10 / 32000.0;
-            }
-            else if (Value == 3)//电压模式量程0-10V
-            {
-                _value = value * 10 / 32000.0;
+                Alarmtextbox.AppendText("电压!出错" + ex + "\n");
+                throw;
             }
 
-            return _value;
         }
         public void Speedunit(double dNewVel, double dTaccDec)
         {
@@ -504,10 +662,8 @@ namespace TestMain
         }
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //在线变位
-            LTDMC.dmc_reset_target_position_unit(_CardID, 0, uiDoubleUpDown2.Value);
-        }
+
+
+
     }
 }
