@@ -1089,7 +1089,7 @@ namespace TestMain //命名空间根据应用程序修改
         [DllImport("LTDMC.dll")]
         public static extern short dmc_get_progress(ushort CardNo, ref float process);
 
-        //总线参数
+        #region 总线参数
         [DllImport("LTDMC.dll", EntryPoint = "nmc_download_configfile", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern short nmc_download_configfile(UInt16 CardNo, UInt16 PortNum, String FileName);//总线ENI配置文件
         [DllImport("LTDMC.dll", EntryPoint = "nmc_download_mapfile", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
@@ -1283,6 +1283,6 @@ namespace TestMain //命名空间根据应用程序修改
         public static extern short nmc_set_offset_pos(UInt16 CardNo, UInt16 axis, double offset_pos);
         [DllImport("LTDMC.dll")]
         public static extern short nmc_set_offset_pos(UInt16 CardNo, UInt16 axis, ref double offset_pos);
-
+        #endregion
     }
 }

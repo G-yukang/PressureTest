@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,27 +11,44 @@ namespace TestMain.Common
 {
     public class AlarmLogger
     {
-        private List<AlarmRecord> _records;
-
+        private List<string> logs;
+        private string logFilePath;
         public AlarmLogger()
         {
-            _records = new List<AlarmRecord>();
-        }
+            logs = new List<string>();
+            logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Alarm_logs.txt");
 
-        public void LogAlarm(string message)
-        {
-            var record = new AlarmRecord(DateTime.Now, message);
-            _records.Add(record);
-        }
-
-        public void DisplayRecords(DataGridView dataGridView)
-        {
-            dataGridView.Rows.Clear(); // 清空数据表格
-
-            foreach (var record in _records)
+            // 如果文件不存在，则创建文件
+            if (!File.Exists(logFilePath))
             {
-                dataGridView.Rows.Add(record.Timestamp, record.Message);
+                File.Create(logFilePath).Dispose();
             }
+        }
+        public void LogAlarm(string alarmMessage)
+        {
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string logEntry = $"{timestamp}: {alarmMessage}";
+            logs.Add(logEntry);
+            File.AppendAllText(logFilePath, logEntry + Environment.NewLine);
+        }
+
+        public void ClearLogs()
+        {
+            logs.Clear();
+            if (File.Exists(logFilePath))
+            {
+                File.Delete(logFilePath);
+                File.Create(logFilePath).Dispose();
+            }
+        }
+
+        public List<string> GetLogs()
+        {
+            if (File.Exists(logFilePath))
+            {
+                logs = new List<string>(File.ReadAllLines(logFilePath));
+            }
+            return new List<string>(logs);
         }
     }
     public class AlarmRecord

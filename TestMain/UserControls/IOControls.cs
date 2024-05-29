@@ -1,5 +1,4 @@
-﻿using Sunny.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TestMain.Controls
+namespace TestMain.UserControls
 {
-    public partial class LogRecord : Form
+    public partial class IOControls : UserControl
     {
-        public LogRecord()
+        public IOControls()
         {
             InitializeComponent();
         }

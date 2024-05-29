@@ -32,14 +32,12 @@
             // 
             // LogRecord
             // 
-            this.AllowShowTitle = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1321, 686);
-            this.ExtendSymbol = 61787;
+            this.ClientSize = new System.Drawing.Size(1669, 706);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "LogRecord";
             this.Padding = new System.Windows.Forms.Padding(0, 35, 0, 0);
-            this.ShowTitle = true;
-            this.Symbol = 61787;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LogRecord";
             this.ResumeLayout(false);
 

@@ -1,9 +1,11 @@
-﻿using Sunny.UI;
+﻿using S7.Net.Types;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using TestMain.Controls;
@@ -15,6 +17,14 @@ namespace TestMain
     public partial class HydropressTest : UIPage
     {
         #region 全局参数
+
+        Label[] arrLabel = new Label[8];
+        private List<PointF> arrPonitList = new List<PointF>();
+        //定义输出IO的按钮控件
+        System.Windows.Forms.Button[] arrButton = new System.Windows.Forms.Button[8];
+
+        XmlHandler<HydropressModel> xmlFileManager = new XmlHandler<HydropressModel>();
+
         private double qswz;                //起始位置
         private double yxwz;                //运行位置
         private double bhwz;                //闭合位置
@@ -33,7 +43,6 @@ namespace TestMain
         private double yxyl;                //压力运行
         private double bhyl;                //压力闭合
         private double kmyl;                //压力开模
-
         ushort _CardID = 0;                 //轴机ID
         double PressureVD = 0;              //压力      
         double CurrentPos = 0;              //当前位置  
@@ -41,13 +50,7 @@ namespace TestMain
         double CurSpeed = 0;                //当前速度
         double dEnPos = 0;                  //编码器反馈位置
         private ushort usCardNum = 0;       //IO
-
-        Label[] arrLabel = new Label[8];
-        private List<PointF> arrPonitList = new List<PointF>();
-        //定义输出IO的按钮控件
-        System.Windows.Forms.Button[] arrButton = new System.Windows.Forms.Button[8];
-
-        XmlHandler<HydropressModel> xmlFileManager = new XmlHandler<HydropressModel>();
+        private bool startdian;
 
         //压机
         private ushort cardNo = 0;                   // 例子中的卡号
@@ -60,6 +63,7 @@ namespace TestMain
 
         private static bool _shouldStop;
         private Thread thread1;
+        private Thread thread2;
         #endregion
 
         public HydropressTest()
@@ -105,7 +109,7 @@ namespace TestMain
                 LTDMC.nmc_read_rxpdo_extra_uint(cardNo, portNum, actualTorqueAddress, dataLen, ref actualValue);
 
 
-                uiPanel4.Text = DateTime.Now.DateTimeString();
+                uiPanel4.Text = System.DateTime.Now.DateTimeString();
 
                 LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);     // 读取轴当前速度
                 sun_Speed.Text = CurSpeed.ToString();
@@ -226,7 +230,47 @@ namespace TestMain
         }
         #endregion
 
-        #region 按钮事件
+        #region 按钮事件  
+        private void uiButton5_MouseDown(object sender, MouseEventArgs e)
+        {
+            thread2 = new Thread(Threadstartadd);
+            thread2.Start();
+            startdian = true;
+        }
+
+        private void uiButton5_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            startdian = false;
+        }
+
+        private void uiButton6_MouseClick(object sender, MouseEventArgs e)
+        {
+            thread2 = new Thread(Threadstartminus);
+            thread2.Start();
+            startdian = true;
+        }
+
+        private void uiButton6_MouseDown(object sender, MouseEventArgs e)
+        {
+            startdian = false;
+        }
+        public void Threadstartadd()
+        {
+            while (startdian)
+            {
+
+                Thread.Sleep(100);
+            }
+        }
+        public void Threadstartminus()
+        {
+            while (startdian)
+            {
+
+                Thread.Sleep(100);
+            }
+        }
         private void btn_ChangeVel_Click(object sender, EventArgs e)
         {
             try
@@ -445,6 +489,8 @@ namespace TestMain
             //在线变位
             LTDMC.dmc_reset_target_position_unit(_CardID, 0, uiDoubleUpDown2.Value);
         }
+
+
         #endregion
 
         #region 逻辑处理
@@ -664,6 +710,15 @@ namespace TestMain
 
 
 
+        /// <param name="CardNo">卡号</param>
+        /// <param name="PortNum">端口号</param>
+        /// <param name="address">地址</param>
+        /// <param name="DataLen">数据长度</param>
+        /// <param name="Value">读取的值</param>
+        private void uiButton4_Click(object sender, EventArgs e)
+        {
+            LTDMC.nmc_write_rxpdo_extra_uint(cardNo, portNum, 0x6098, 4, 35);
+        }
 
     }
 }
