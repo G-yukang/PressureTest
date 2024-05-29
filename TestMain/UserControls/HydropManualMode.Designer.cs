@@ -294,7 +294,7 @@
             // 
             this.fLineChart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fLineChart1.Location = new System.Drawing.Point(0, 0);
-            this.fLineChart1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fLineChart1.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
             this.fLineChart1.Name = "fLineChart1";
             this.fLineChart1.Size = new System.Drawing.Size(1145, 706);
             this.fLineChart1.TabIndex = 1;

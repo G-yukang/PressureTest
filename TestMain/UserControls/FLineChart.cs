@@ -92,8 +92,6 @@ namespace TestMain.UserControls
             // 获取当前时间作为X轴值
             DateTime currentTime = DateTime.Now;
 
-            // 将新的数据点添加到图表
-            Console.WriteLine($"Adding data: Time={currentTime}, Value={processValue}"); // 调试输出
             uiLineChart1.Option.AddData("Line1", currentTime, processValue);
 
             index++;

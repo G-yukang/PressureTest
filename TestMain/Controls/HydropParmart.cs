@@ -18,7 +18,7 @@ namespace TestMain.Controls
             try
             {
                 // 写入数据到 XML 文件
-                bool res = xmlFileManager.WriteToFile(DataAnalysisDefault());
+               // bool res = xmlFileManager.WriteToFile(DataAnalysisDefault());
             }
             catch (Exception ex)
             {
