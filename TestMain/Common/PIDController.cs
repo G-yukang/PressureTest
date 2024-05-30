@@ -39,7 +39,7 @@ namespace TestMain.Common
             // 初始化上一次的误差和积分值
             prevError = 0;
             integral = 0;
-            learningRate = learningRate;
+            this.learningRate = learningRate;
             // 初始化输出限制参数
             this.outputMin = outputMin;
             this.outputMax = outputMax;

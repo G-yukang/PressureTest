@@ -1,4 +1,5 @@
-﻿using Sunny.UI;
+﻿using log4net;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -55,8 +56,8 @@ namespace TestMain
         private readonly ushort actualTorqueAddress = 0x6077; // 实际转矩地址
         private readonly ushort targetTorqueAddress = 0x6071; // 目标转矩地址
         private readonly ushort dataLen = 4;                  // 数据长度
-        private uint actualValue;                            // 实际示例值
-        private uint targetValue;                            // 目标示例值
+        private uint actualValue;                             // 实际示例值
+        private uint targetValue;                             // 目标示例值
 
         private static bool _shouldStop;
         private Thread thread1;
@@ -78,133 +79,120 @@ namespace TestMain
         {
             alarmLogger = new AlarmLogger();
             pidController = new PIDController(1.0, 0.5, 0.1, 0.01); // 初始化PID控制器
-            //运动卡初始化
-            SportsCard();
-            FLineChartSer();
-            GlobalDate();
-
-            InitializeNavigationMenu("手动模式");
-            uiButton10.Visible = false;
-
+            SportsCard(); // 运动卡初始化
+            InitializeNavigationMenu("手动模式"); // 初始化导航菜单为手动模式
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
             {
+                // 从指定地址读取实际转矩值
                 LTDMC.nmc_read_rxpdo_extra_uint(cardNo, portNum, actualTorqueAddress, dataLen, ref actualValue);
 
-
-
-                LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);     // 读取轴当前速度
+                // 读取指定轴的当前速度并更新速度显示
+                LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);
                 sun_Speed.Text = CurSpeed.ToString();
 
+                // 读取压力指令值并将其转换为有意义的单位
                 int value0 = 0;
-                LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);        //读取压力指令值
+                LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);
                 double value00 = value_AD(0, value0);
                 textBox5.Text = value00.ToString();
                 PressureVD = value00;
 
-                LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);           //读取指定轴指令位置值
+                // 读取指定轴的指令位置值并更新显示
+                LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);
                 tb_CurrentPos.Text = dCmdPos.ToString();
                 CurrentPos = dCmdPos;
 
-                LTDMC.dmc_get_encoder_unit(_CardID, 0, ref dEnPos);             //读取指定轴的编码器反馈值
+                // 读取指定轴的编码器反馈值并更新显示
+                LTDMC.dmc_get_encoder_unit(_CardID, 0, ref dEnPos);
                 tb_Encoder.Text = dEnPos.ToString();
 
+                // 根据轴的运动状态更新运行状态显示
+                tb_RunState.Text = LTDMC.dmc_check_done(_CardID, 0) == 0 ? "运行中" : "停止中";
 
-                if (LTDMC.dmc_check_done(_CardID, 0) == 0)                      //读取指定轴运动状态
-                {
-                    tb_RunState.Text = "运行中";
-                }
-                else
-                {
-                    tb_RunState.Text = "停止中";
-                }
-
+                // 读取轴状态机的状态并更新显示
                 ushort usAxisStateMachine = 0;
                 LTDMC.nmc_get_axis_state_machine(0, 0, ref usAxisStateMachine);
-                switch (usAxisStateMachine)
-                {
-                    case 0:
-                        textBox_StateMachine.Text = "轴处于未启动状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                    case 1:
-                        textBox_StateMachine.Text = "轴处于启动禁止状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                    case 2:
-                        textBox_StateMachine.Text = "轴处于准备启动状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                    case 3:
-                        textBox_StateMachine.Text = "轴处于启动状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                    case 4:
-                        textBox_StateMachine.Text = "轴处于操作使能状态";
-                        textBox_StateMachine.BackColor = Color.Green;
-                        break;
-                    case 5:
-                        textBox_StateMachine.Text = "轴处于停止状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                    case 6:
-                        textBox_StateMachine.Text = "轴处于错误触发状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                    case 7:
-                        textBox_StateMachine.Text = "轴处于错误状态";
-                        textBox_StateMachine.BackColor = Color.Red;
-                        break;
-                };
+                UpdateAxisState(usAxisStateMachine);
 
-                //读取总线状态
+                // 读取EtherCAT总线状态并更新显示
                 ushort usErrorCode = 0;
                 LTDMC.nmc_get_errcode(0, 2, ref usErrorCode);
-                if (usErrorCode == 0)
-                {
-                    textBox_EthercatState.Text = "EtherCAT总线正常";
-                    textBox_EthercatState.BackColor = Color.Green;
-                }
-                else
-                {
-                    textBox_EthercatState.Text = "EtherCAT总线出错";
-                    textBox_EthercatState.BackColor = Color.Red;
-                }
-                //更新时间
-                if (InvokeRequired)
-                {
-                    Invoke(new MethodInvoker(() => datetimepanel.Text = DateTime.Now.ToString()));
-                }
-                else
-                {
-                    datetimepanel.Text = DateTime.Now.ToString();
-                }
+                UpdateEthercatState(usErrorCode);
+
+                // 更新当前时间显示
+                datetimepanel.Text = DateTime.Now.ToString();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show($"发生错误: {ex.Message}");
+                alarmLogger.LogAlarm($"发生错误: {ex.Message}");
             }
         }
-        private void Linecharttimer_Tick(object sender, EventArgs e)
-        {
 
+        private void UpdateAxisState(ushort usAxisStateMachine)
+        {
+            // 更新轴状态机状态的文本和颜色
+            switch (usAxisStateMachine)
+            {
+                case 0:
+                    SetStateMachineText("轴处于未启动状态", Color.Red);
+                    break;
+                case 1:
+                    SetStateMachineText("轴处于启动禁止状态", Color.Red);
+                    break;
+                case 2:
+                    SetStateMachineText("轴处于准备启动状态", Color.Red);
+                    break;
+                case 3:
+                    SetStateMachineText("轴处于启动状态", Color.Red);
+                    break;
+                case 4:
+                    SetStateMachineText("轴处于操作使能状态", Color.Green);
+                    break;
+                case 5:
+                    SetStateMachineText("轴处于停止状态", Color.Red);
+                    break;
+                case 6:
+                    SetStateMachineText("轴处于错误触发状态", Color.Red);
+                    break;
+                case 7:
+                    SetStateMachineText("轴处于错误状态", Color.Red);
+                    break;
+            }
+        }
+
+        private void SetStateMachineText(string text, Color color)
+        {
+            // 设置状态机文本和背景颜色
+            textBox_StateMachine.Text = text;
+            textBox_StateMachine.BackColor = color;
+        }
+
+        private void UpdateEthercatState(ushort usErrorCode)
+        {
+            // 更新EtherCAT总线状态的文本和颜色
+            textBox_EthercatState.Text = usErrorCode == 0 ? "EtherCAT总线正常" : "EtherCAT总线出错";
+            textBox_EthercatState.BackColor = usErrorCode == 0 ? Color.Green : Color.Red;
         }
 
         #region 逻辑处理
-        //运动卡初始化
         private void SportsCard()
         {
             try
             {
+                // 初始化运动卡
                 short num = LTDMC.dmc_board_init();
                 if (num <= 0 || num > 8)
                 {
-                    this.ShowWarningDialog("初始卡失败!出错");
-                    alarmLogger.LogAlarm("初始卡失败!出错");
+                    ShowInitializationError();
+                    return;
                 }
 
+                // 获取运动卡信息
                 ushort _num = 0;
                 ushort[] cardids = new ushort[8];
                 uint[] cardtypes = new uint[8];
@@ -212,8 +200,8 @@ namespace TestMain
 
                 if (res != 0)
                 {
-                    this.ShowWarningDialog("初始卡失败!出错");
-                    alarmLogger.LogAlarm("初始卡失败!出错");
+                    ShowInitializationError();
+                    return;
                 }
 
                 _CardID = cardids[0];
@@ -222,47 +210,40 @@ namespace TestMain
             catch (Exception ex)
             {
                 MessageBox.Show($"发生错误: {ex.Message}");
-
                 alarmLogger.LogAlarm($"发生错误: {ex.Message}");
             }
+        }
 
-        }
-        private void GlobalDate()
+        private void ShowInitializationError()
         {
-            
+            // 显示初始化错误信息
+            this.ShowWarningDialog("初始卡失败!出错");
+            alarmLogger.LogAlarm("初始卡失败!出错");
         }
-        public void FLineChartSer()
-        {
 
-        }
-        public void FLineChartstop()
-        {
-            timer1.Stop(); // 启动定时器
-        }
         private double value_AD(ushort SubIndex, int value)
         {
             try
             {
+                // 根据不同电压模式量程转换值
                 int Value = 0;
                 double _value = 1;
                 LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
-                if (Value == 0)//电压模式量程±5V
+                switch (Value)
                 {
-                    _value = value * 5 / 32000.0;
+                    case 0: // 电压模式量程±5V
+                        _value = value * 5 / 32000.0;
+                        break;
+                    case 1: // 电压模式量程1-5V
+                        _value = value * 4 / 32000.0 + 1;
+                        break;
+                    case 2: // 电压模式量程±10V
+                        _value = value * 10 / 32000.0;
+                        break;
+                    case 3: // 电压模式量程0-10V
+                        _value = value * 10 / 32000.0;
+                        break;
                 }
-                else if (Value == 1)//电压模式量程1-5V
-                {
-                    _value = value * 4 / 32000.0 + 1;
-                }
-                else if (Value == 2)//电压模式量程±10V
-                {
-                    _value = value * 10 / 32000.0;
-                }
-                else if (Value == 3)//电压模式量程0-10V
-                {
-                    _value = value * 10 / 32000.0;
-                }
-
                 return _value;
             }
             catch (Exception)
@@ -272,71 +253,42 @@ namespace TestMain
         }
         #endregion
 
-        #region Event Handlers 点击事件
-        // 报警复位逻辑
-        private void uiButton8_Click(object sender, EventArgs e)
-        {
-            AlarmControls alarmControls = new AlarmControls();
-            alarmControls.AppendTextToRichTextBox();
-
-        }
-        // 矫正置零逻辑
-        private void uiButton7_Click(object sender, EventArgs e)
-        {
-            LTDMC.nmc_write_rxpdo_extra_uint(cardNo, portNum, 0x6098, 4, 35);
-        }
-        //设置零点
-        private void uiButton9_Click(object sender, EventArgs e)
-        {
-            LTDMC.nmc_write_rxpdo_extra_uint(cardNo, portNum, 0x6098, 4, 35);
-        }
-
-        private void uiButton10_Click(object sender, EventArgs e)
-        {
-            InitializeNavigationMenu("参数配置");
-        }
-
+        #region 点击事件
         private void uiButton1_Click(object sender, EventArgs e)
         {
             InitializeNavigationMenu("手动模式");
-            uiButton10.Visible = false;
         }
 
         private void uiButton6_Click(object sender, EventArgs e)
         {
             InitializeNavigationMenu("报警信息");
-            uiButton10.Visible = false;
         }
 
         private void uiButton3_Click(object sender, EventArgs e)
         {
             InitializeNavigationMenu("位置模式");
-            uiButton10.Visible = true;
         }
 
         private void uiButton2_Click(object sender, EventArgs e)
         {
             InitializeNavigationMenu("压力模式");
-            uiButton10.Visible = false;
         }
 
         private void uiButton4_Click(object sender, EventArgs e)
         {
             InitializeNavigationMenu("自动模式");
-            uiButton10.Visible = true;
         }
-
         #endregion
 
-        #region Private Methods权限
-
-        private void InitializeNavigationMenu(string type)
+        #region 权限处理
+        public void InitializeNavigationMenu(string type)
         {
             if (InvokeRequired)
             {
                 Invoke(new Action<string>(InitializeNavigationMenu), type);
                 return;
             }
+
             try
             {
                 titlepanel.Text = string.Empty;
@@ -369,28 +321,19 @@ namespace TestMain
 
         private UserControl CreateControlByType(string type)
         {
+            // 根据类型创建对应的控件
             switch (type)
             {
                 case "手动模式":
-                    var uiControls = new IOControls();
-                    uiPanel4.Controls.Add(uiControls);
-                    uiControls.Dock = DockStyle.Fill;
-                    uiControls.Show();
+                    AddControlToPanel(new IOControls());
                     return new HydropManualMode();
                 case "自动模式":
-                    // 自动模式逻辑
                     return null;
                 case "压力模式":
-                    var uiControls1 = new IOControls();
-                    uiPanel4.Controls.Add(uiControls1);
-                    uiControls1.Dock = DockStyle.Fill;
-                    uiControls1.Show();
+                    AddControlToPanel(new IOControls());
                     return new HydropPressureMode();
                 case "位置模式":
-                    var uiControls2 = new IOControls();
-                    uiPanel4.Controls.Add(uiControls2);
-                    uiControls2.Dock = DockStyle.Fill;
-                    uiControls2.Show();
+                    AddControlToPanel(new IOControls());
                     return new HydropLocationMode();
                 case "参数配置":
                     return new FlowPanel();
@@ -401,8 +344,13 @@ namespace TestMain
             }
         }
 
+        private void AddControlToPanel(UserControl control)
+        {
+            // 添加控件到面板
+            uiPanel4.Controls.Add(control);
+            control.Dock = DockStyle.Fill;
+            control.Show();
+        }
         #endregion
-
-
     }
 }

@@ -38,5 +38,16 @@ namespace TestMain.UserControls
             // 刷新控件
             uiRichTextBox1.Refresh();
         }
+
+        private void uiButton1_Click(object sender, EventArgs e)
+        {
+            logger = new AlarmLogger();
+            logger.ClearLogs();
+
+            uiRichTextBox1.Clear();
+            // 刷新控件
+            uiRichTextBox1.Refresh();
+
+        }
     }
 }

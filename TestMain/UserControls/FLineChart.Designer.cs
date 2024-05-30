@@ -46,7 +46,7 @@
             this.uiLineChart1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiLineChart1.MouseDownType = Sunny.UI.UILineChartMouseDownType.Zoom;
             this.uiLineChart1.Name = "uiLineChart1";
-            this.uiLineChart1.RectColor = System.Drawing.Color.Black;
+            this.uiLineChart1.RectColor = System.Drawing.SystemColors.MenuHighlight;
             this.uiLineChart1.Size = new System.Drawing.Size(896, 562);
             this.uiLineChart1.Style = Sunny.UI.UIStyle.Custom;
             this.uiLineChart1.SubFont = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
