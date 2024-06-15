@@ -195,6 +195,7 @@
   <ItemGroup>
     <Compile Include="Common\AlarmLogger.cs" />
     <Compile Include="Common\GlobalData.cs" />
+    <Compile Include="Common\Parameter.cs" />
     <Compile Include="Common\PIDController.cs" />
     <Compile Include="Common\PLCS7Log.cs" />
     <Compile Include="Common\INIHandler.cs" />
@@ -254,6 +255,12 @@
     </Compile>
     <Compile Include="UserControls\FlowPanel.Designer.cs">
       <DependentUpon>FlowPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\HydropAutomatic.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\HydropAutomatic.Designer.cs">
+      <DependentUpon>HydropAutomatic.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\HydropLocationMode.cs">
       <SubType>UserControl</SubType>
@@ -324,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\FlowPanel.resx">
       <DependentUpon>FlowPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\HydropAutomatic.resx">
+      <DependentUpon>HydropAutomatic.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HydropLocationMode.resx">
       <DependentUpon>HydropLocationMode.cs</DependentUpon>

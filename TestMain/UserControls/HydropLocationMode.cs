@@ -27,6 +27,11 @@ namespace TestMain.UserControls
         private AlarmLogger alarmLogger;
         private System.DateTime dateTime;
         private ushort MyCardNo, Myaxis, Mymode, state, statemachine;
+        private Parameter parameter;
+        private ushort _CardID;
+        private double PressureVD;          // 压力      
+        private double dCmdPos;             // 当前位置
+        private double CurSpeed;            // 当前速度
 
         public HydropLocationMode()
         {
@@ -56,19 +61,71 @@ namespace TestMain.UserControls
 
             uiLineChart1.SetOption(option); // 应用图表选项
         }
-
+        //停止
         private void uiButton2_Click(object sender, EventArgs e)
         {
             timer1.Stop();
-            LTDMC.dmc_stop(3, 0, 0);
+            LTDMC.dmc_stop(0, 0, 0);
+        }
+        //启动
+        private void uiButton1_Click(object sender, EventArgs e)
+        {
+            // 调用电机控制器的启动方法
+            parameter.StartMotor();
+
+            //开始读取实时压力
+            timer1.Start();
+            //画线
+            Cracc();
         }
 
-        private void uiButton1_Click(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //实时数据
+            RealTime();
+
+            // 获取当前时间作为X轴值
+            System.DateTime currentTime = System.DateTime.Now;
+
+            uiLineChart1.Option.AddData("Line1", currentTime, PressureVD);
+
+            uiLineChart1.Refresh(); // 刷新图表
+
+            //模拟数据
+            // SimulatedData();
+        }
+        private void RealTime()
+        {
+            // 读取指定轴的当前速度并更新速度显示
+            LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);
+            SpeedTextBox.Text = CurSpeed.ToString();
+
+            // 读取压力指令值并将其转换为有意义的单位
+            int value0 = 0;
+            LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);
+            double value00 = ConvertVoltageToPressure(value0);
+            PressureVD = Math.Round(value00, 2);
+
+            // 读取指定轴的指令位置值并更新显示
+            LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);
+            LocationTextBox.Text = dCmdPos.ToString();
+        }
+        public static double ConvertVoltageToPressure(double voltage)
+        {
+            if (voltage < 0 || voltage > 10)
+            {
+                return 0;
+            }
+
+            double pressure = (voltage / 10.0) * 30.0;
+            return pressure;
+        }
+        //画线
+        private void Cracc()
         {
             try
             {
                 index = 0;
-
                 System.DateTime dt = new System.DateTime(2024, 5, 28);
                 UILineOption option = new UILineOption
                 {
@@ -86,15 +143,15 @@ namespace TestMain.UserControls
                 series.SetMaxCount(300); // 设置数据系列最大数量
 
                 uiLineChart1.SetOption(option); // 应用图表选项
-                timer1.Start();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
+        //模拟数据
+        private void SimulatedData()
         {
             // 生成一个随机的模拟过程值，模拟一些噪声
             double noise = (random.NextDouble() - 0.5) * 2.5; // 调整噪声范围为-2.5到2.5
@@ -119,6 +176,7 @@ namespace TestMain.UserControls
 
             uiLineChart1.Option.AddData("Line1", currentTime, processValue);
 
+            uiLineChart1.Refresh(); // 刷新图表
             index++;
 
             if (index > 50)
@@ -126,7 +184,7 @@ namespace TestMain.UserControls
                 // uiLineChart1.Option.XAxis.SetRange(index - 50, index + 20); // 设置X轴显示范围
             }
 
-            uiLineChart1.Refresh(); // 刷新图表
+
 
             // 动态调整PID参数示例
             if (processValue > 90) // 如果过程值超过90
@@ -140,23 +198,42 @@ namespace TestMain.UserControls
                 pidController.UpdateOutputLimits(-50, 50); // 更新输出限制
             }
         }
+        private double value_AD(ushort SubIndex, int value)
+        {
+            try
+            {
+                // 根据不同电压模式量程转换值
+                int Value = 0;
+                double _value = 1;
+                LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
+                switch (Value)
+                {
+                    case 0: // 电压模式量程±5V
+                        _value = value * 5 / 32000.0;
+                        break;
+                    case 1: // 电压模式量程1-5V
+                        _value = value * 4 / 32000.0 + 1;
+                        break;
+                    case 2: // 电压模式量程±10V
+                        _value = value * 10 / 32000.0;
+                        break;
+                    case 3: // 电压模式量程0-10V
+                        _value = value * 10 / 32000.0;
+                        break;
+                }
+                return _value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         private void uiButton8_Click(object sender, EventArgs e)
         {
             AlarmControls alarmControls = new AlarmControls();
             alarmControls.AppendTextToRichTextBox();
         }
-
-        private void uiButton10_Click(object sender, EventArgs e)
-        {
-            flowPanel = new FlowPanel();
-            uiPanel3.Controls.Clear();
-
-            uiPanel3.Controls.Add(flowPanel);
-            flowPanel.Dock = DockStyle.Fill;
-            flowPanel.Show();
-        }
-
         private void uiButton9_Click(object sender, EventArgs e)
         {
             try

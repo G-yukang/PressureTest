@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.uiPanel1 = new Sunny.UI.UIPanel();
+            this.uiPanel3 = new Sunny.UI.UIPanel();
+            this.uiPanel5 = new Sunny.UI.UIPanel();
             this.uiPanel2 = new Sunny.UI.UIPanel();
             this.uiGroupBox1 = new Sunny.UI.UIGroupBox();
             this.uiButton2 = new Sunny.UI.UIButton();
@@ -38,26 +41,27 @@
             this.uiLabel6 = new Sunny.UI.UILabel();
             this.uiLabel5 = new Sunny.UI.UILabel();
             this.uiLabel4 = new Sunny.UI.UILabel();
-            this.uiTextBox4 = new Sunny.UI.UITextBox();
+            this.LTextBox = new Sunny.UI.UITextBox();
             this.uiLabel3 = new Sunny.UI.UILabel();
-            this.uiTextBox3 = new Sunny.UI.UITextBox();
+            this.SpeedTextBox = new Sunny.UI.UITextBox();
             this.uiLabel2 = new Sunny.UI.UILabel();
-            this.uiTextBox2 = new Sunny.UI.UITextBox();
+            this.LocationTextbox = new Sunny.UI.UITextBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiTextBox1 = new Sunny.UI.UITextBox();
-            this.uiPanel3 = new Sunny.UI.UIPanel();
+            this.fLineChart1 = new TestMain.UserControls.FLineChart();
             this.uiPanel4 = new Sunny.UI.UIPanel();
             this.uiButton9 = new Sunny.UI.UIButton();
             this.uiButton8 = new Sunny.UI.UIButton();
             this.uiButton7 = new Sunny.UI.UIButton();
-            this.fLineChart1 = new TestMain.UserControls.FLineChart();
-            this.uiPanel5 = new Sunny.UI.UIPanel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.uiPanel6 = new Sunny.UI.UIPanel();
             this.uiPanel1.SuspendLayout();
+            this.uiPanel3.SuspendLayout();
+            this.uiPanel5.SuspendLayout();
             this.uiPanel2.SuspendLayout();
             this.uiGroupBox1.SuspendLayout();
-            this.uiPanel3.SuspendLayout();
             this.uiPanel4.SuspendLayout();
-            this.uiPanel5.SuspendLayout();
+            this.uiPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // uiPanel1
@@ -73,6 +77,36 @@
             this.uiPanel1.TabIndex = 0;
             this.uiPanel1.Text = null;
             this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // uiPanel3
+            // 
+            this.uiPanel3.Controls.Add(this.uiPanel5);
+            this.uiPanel3.Controls.Add(this.uiPanel4);
+            this.uiPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiPanel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiPanel3.Location = new System.Drawing.Point(0, 0);
+            this.uiPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiPanel3.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiPanel3.Name = "uiPanel3";
+            this.uiPanel3.Size = new System.Drawing.Size(1669, 786);
+            this.uiPanel3.TabIndex = 2;
+            this.uiPanel3.Text = "uiPanel3";
+            this.uiPanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // uiPanel5
+            // 
+            this.uiPanel5.Controls.Add(this.uiPanel6);
+            this.uiPanel5.Controls.Add(this.uiPanel2);
+            this.uiPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiPanel5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiPanel5.Location = new System.Drawing.Point(0, 0);
+            this.uiPanel5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiPanel5.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiPanel5.Name = "uiPanel5";
+            this.uiPanel5.Size = new System.Drawing.Size(1669, 706);
+            this.uiPanel5.TabIndex = 3;
+            this.uiPanel5.Text = "uiPanel5";
+            this.uiPanel5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // uiPanel2
             // 
@@ -97,11 +131,11 @@
             this.uiGroupBox1.Controls.Add(this.uiLabel6);
             this.uiGroupBox1.Controls.Add(this.uiLabel5);
             this.uiGroupBox1.Controls.Add(this.uiLabel4);
-            this.uiGroupBox1.Controls.Add(this.uiTextBox4);
+            this.uiGroupBox1.Controls.Add(this.LTextBox);
             this.uiGroupBox1.Controls.Add(this.uiLabel3);
-            this.uiGroupBox1.Controls.Add(this.uiTextBox3);
+            this.uiGroupBox1.Controls.Add(this.SpeedTextBox);
             this.uiGroupBox1.Controls.Add(this.uiLabel2);
-            this.uiGroupBox1.Controls.Add(this.uiTextBox2);
+            this.uiGroupBox1.Controls.Add(this.LocationTextbox);
             this.uiGroupBox1.Controls.Add(this.uiLabel1);
             this.uiGroupBox1.Controls.Add(this.uiTextBox1);
             this.uiGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -202,20 +236,20 @@
             this.uiLabel4.Text = "压力显示:";
             this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // uiTextBox4
+            // LTextBox
             // 
-            this.uiTextBox4.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox4.Location = new System.Drawing.Point(150, 328);
-            this.uiTextBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox4.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox4.Name = "uiTextBox4";
-            this.uiTextBox4.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox4.ShowText = false;
-            this.uiTextBox4.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox4.TabIndex = 20;
-            this.uiTextBox4.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox4.Watermark = "";
+            this.LTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.LTextBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LTextBox.Location = new System.Drawing.Point(150, 328);
+            this.LTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LTextBox.MinimumSize = new System.Drawing.Size(1, 16);
+            this.LTextBox.Name = "LTextBox";
+            this.LTextBox.Padding = new System.Windows.Forms.Padding(5);
+            this.LTextBox.ShowText = false;
+            this.LTextBox.Size = new System.Drawing.Size(250, 49);
+            this.LTextBox.TabIndex = 20;
+            this.LTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LTextBox.Watermark = "";
             // 
             // uiLabel3
             // 
@@ -229,20 +263,20 @@
             this.uiLabel3.Text = "当前速度";
             this.uiLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // uiTextBox3
+            // SpeedTextBox
             // 
-            this.uiTextBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox3.Location = new System.Drawing.Point(150, 251);
-            this.uiTextBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox3.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox3.Name = "uiTextBox3";
-            this.uiTextBox3.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox3.ShowText = false;
-            this.uiTextBox3.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox3.TabIndex = 18;
-            this.uiTextBox3.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox3.Watermark = "";
+            this.SpeedTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.SpeedTextBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SpeedTextBox.Location = new System.Drawing.Point(150, 251);
+            this.SpeedTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SpeedTextBox.MinimumSize = new System.Drawing.Size(1, 16);
+            this.SpeedTextBox.Name = "SpeedTextBox";
+            this.SpeedTextBox.Padding = new System.Windows.Forms.Padding(5);
+            this.SpeedTextBox.ShowText = false;
+            this.SpeedTextBox.Size = new System.Drawing.Size(250, 49);
+            this.SpeedTextBox.TabIndex = 18;
+            this.SpeedTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SpeedTextBox.Watermark = "";
             // 
             // uiLabel2
             // 
@@ -256,20 +290,20 @@
             this.uiLabel2.Text = "当前位置:";
             this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // uiTextBox2
+            // LocationTextbox
             // 
-            this.uiTextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox2.Location = new System.Drawing.Point(150, 181);
-            this.uiTextBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox2.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox2.Name = "uiTextBox2";
-            this.uiTextBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox2.ShowText = false;
-            this.uiTextBox2.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox2.TabIndex = 16;
-            this.uiTextBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox2.Watermark = "";
+            this.LocationTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.LocationTextbox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LocationTextbox.Location = new System.Drawing.Point(150, 181);
+            this.LocationTextbox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LocationTextbox.MinimumSize = new System.Drawing.Size(1, 16);
+            this.LocationTextbox.Name = "LocationTextbox";
+            this.LocationTextbox.Padding = new System.Windows.Forms.Padding(5);
+            this.LocationTextbox.ShowText = false;
+            this.LocationTextbox.Size = new System.Drawing.Size(250, 49);
+            this.LocationTextbox.TabIndex = 16;
+            this.LocationTextbox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LocationTextbox.Watermark = "";
             // 
             // uiLabel1
             // 
@@ -298,20 +332,14 @@
             this.uiTextBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiTextBox1.Watermark = "";
             // 
-            // uiPanel3
+            // fLineChart1
             // 
-            this.uiPanel3.Controls.Add(this.uiPanel5);
-            this.uiPanel3.Controls.Add(this.uiPanel4);
-            this.uiPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiPanel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiPanel3.Location = new System.Drawing.Point(0, 0);
-            this.uiPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel3.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiPanel3.Name = "uiPanel3";
-            this.uiPanel3.Size = new System.Drawing.Size(1669, 786);
-            this.uiPanel3.TabIndex = 2;
-            this.uiPanel3.Text = "uiPanel3";
-            this.uiPanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.fLineChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fLineChart1.Location = new System.Drawing.Point(0, 0);
+            this.fLineChart1.Margin = new System.Windows.Forms.Padding(28, 28, 28, 28);
+            this.fLineChart1.Name = "fLineChart1";
+            this.fLineChart1.Size = new System.Drawing.Size(1145, 706);
+            this.fLineChart1.TabIndex = 1;
             // 
             // uiPanel4
             // 
@@ -371,29 +399,23 @@
             this.uiButton7.TipsFont = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButton7.Click += new System.EventHandler(this.uiButton7_Click);
             // 
-            // fLineChart1
+            // timer1
             // 
-            this.fLineChart1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.fLineChart1.Location = new System.Drawing.Point(0, 0);
-            this.fLineChart1.Margin = new System.Windows.Forms.Padding(9, 9, 9, 9);
-            this.fLineChart1.Name = "fLineChart1";
-            this.fLineChart1.Size = new System.Drawing.Size(1145, 706);
-            this.fLineChart1.TabIndex = 1;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // uiPanel5
+            // uiPanel6
             // 
-            this.uiPanel5.Controls.Add(this.uiPanel2);
-            this.uiPanel5.Controls.Add(this.fLineChart1);
-            this.uiPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiPanel5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiPanel5.Location = new System.Drawing.Point(0, 0);
-            this.uiPanel5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiPanel5.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiPanel5.Name = "uiPanel5";
-            this.uiPanel5.Size = new System.Drawing.Size(1669, 706);
-            this.uiPanel5.TabIndex = 3;
-            this.uiPanel5.Text = "uiPanel5";
-            this.uiPanel5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiPanel6.Controls.Add(this.fLineChart1);
+            this.uiPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiPanel6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiPanel6.Location = new System.Drawing.Point(0, 0);
+            this.uiPanel6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiPanel6.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiPanel6.Name = "uiPanel6";
+            this.uiPanel6.Size = new System.Drawing.Size(1145, 706);
+            this.uiPanel6.TabIndex = 2;
+            this.uiPanel6.Text = "uiPanel6";
+            this.uiPanel6.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // HydropManualMode
             // 
@@ -404,11 +426,12 @@
             this.Size = new System.Drawing.Size(1669, 786);
             this.Load += new System.EventHandler(this.HydropManualMode_Load);
             this.uiPanel1.ResumeLayout(false);
+            this.uiPanel3.ResumeLayout(false);
+            this.uiPanel5.ResumeLayout(false);
             this.uiPanel2.ResumeLayout(false);
             this.uiGroupBox1.ResumeLayout(false);
-            this.uiPanel3.ResumeLayout(false);
             this.uiPanel4.ResumeLayout(false);
-            this.uiPanel5.ResumeLayout(false);
+            this.uiPanel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -425,11 +448,11 @@
         private Sunny.UI.UILabel uiLabel6;
         private Sunny.UI.UILabel uiLabel5;
         private Sunny.UI.UILabel uiLabel4;
-        private Sunny.UI.UITextBox uiTextBox4;
+        private Sunny.UI.UITextBox LTextBox;
         private Sunny.UI.UILabel uiLabel3;
-        private Sunny.UI.UITextBox uiTextBox3;
+        private Sunny.UI.UITextBox SpeedTextBox;
         private Sunny.UI.UILabel uiLabel2;
-        private Sunny.UI.UITextBox uiTextBox2;
+        private Sunny.UI.UITextBox LocationTextbox;
         private Sunny.UI.UILabel uiLabel1;
         private Sunny.UI.UITextBox uiTextBox1;
         private FLineChart fLineChart1;
@@ -439,5 +462,7 @@
         private Sunny.UI.UIButton uiButton8;
         private Sunny.UI.UIButton uiButton7;
         private Sunny.UI.UIPanel uiPanel5;
+        private System.Windows.Forms.Timer timer1;
+        private Sunny.UI.UIPanel uiPanel6;
     }
 }

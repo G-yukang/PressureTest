@@ -36,6 +36,13 @@ namespace TestMain.UserControls
         private ushort statemachine;//状态机
         private ushort MyPosiMode; // 位置模式，0 表示相对位置，1 表示绝对位置
 
+        private ushort _CardID;
+        private double PressureVD;          // 压力      
+        private double CurrentPos;          // 当前位置  
+        private double dCmdPos;             // 指令位置
+        private double CurSpeed;            // 当前速度
+        private double dEnPos;              // 编码器反馈位置
+
         private AlarmLogger alarmLogger;
         private System.DateTime dateTime;
         #endregion
@@ -45,6 +52,24 @@ namespace TestMain.UserControls
             InitializeComponent();
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // 读取指定轴的当前速度并更新速度显示
+            LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);
+            SpeedTextBox.Text = CurSpeed.ToString();
+
+            // 读取压力指令值并将其转换为有意义的单位
+            int value0 = 0;
+            LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);
+            double value00 = value_AD(0, value0);
+            LTextBox.Text = value00.ToString();
+            PressureVD = value00;
+
+            // 读取指定轴的指令位置值并更新显示
+            LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);
+            LocationTextbox.Text = dCmdPos.ToString();
+            CurrentPos = dCmdPos;
+        }
         private void HydropManualMode_Load(object sender, EventArgs e)
         {
             short result = LTDMC.nmc_set_axis_run_mode(cardNo, axis, runMode);
@@ -57,8 +82,36 @@ namespace TestMain.UserControls
                 Console.WriteLine("设置轴运行模式失败，错误代码: " + result);
             }
         }
-
-
+        private double value_AD(ushort SubIndex, int value)
+        {
+            try
+            {
+                // 根据不同电压模式量程转换值
+                int Value = 0;
+                double _value = 1;
+                LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
+                switch (Value)
+                {
+                    case 0: // 电压模式量程±5V
+                        _value = value * 5 / 32000.0;
+                        break;
+                    case 1: // 电压模式量程1-5V
+                        _value = value * 4 / 32000.0 + 1;
+                        break;
+                    case 2: // 电压模式量程±10V
+                        _value = value * 10 / 32000.0;
+                        break;
+                    case 3: // 电压模式量程0-10V
+                        _value = value * 10 / 32000.0;
+                        break;
+                }
+                return _value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         private void uiButton1_Click(object sender, EventArgs e)
         {
             // 设置正转
@@ -91,12 +144,12 @@ namespace TestMain.UserControls
                 ret = LTDMC.dmc_set_profile_unit(MyCardNo, MyAxis, Start_Vel, Max_Vel, Tacc, Tdec, Stop_Vel);
                 if (ret != 0)
                 {
-                    alarmLogger.LogAlarm($"{dateTime} 手动模式：设置速度曲线失败，错误代码：{ret}");
+                    alarmLogger.LogAlarm($"手动模式：设置速度曲线失败，错误代码：{ret}");
                 }
             }
             else
             {
-                alarmLogger.LogAlarm($"{dateTime} 手动模式：初始化失败，错误代码：{ret}");
+                alarmLogger.LogAlarm($"手动模式：初始化失败，错误代码：{ret}");
             }
         }
         private void MoveAxis(double distance)
@@ -134,24 +187,24 @@ namespace TestMain.UserControls
                     if (ret == 0)
                     {
                         // 设置零点成功，记录日志
-                        alarmLogger.LogAlarm($"{dateTime} 手动模式：零点设置成功");
+                        alarmLogger.LogAlarm($"手动模式：零点设置成功");
                     }
                     else
                     {
                         // 设置零点失败，记录日志
-                        alarmLogger.LogAlarm($"{dateTime} 手动模式：设置当前位置为零点失败，错误代码：{ret}");
+                        alarmLogger.LogAlarm($"手动模式：设置当前位置为零点失败，错误代码：{ret}");
                     }
                     //关闭运动卡
                     LTDMC.dmc_board_close();
                 }
                 else
                 {
-                    alarmLogger.LogAlarm($"{dateTime} 手动模式：初始化失败，错误代码：{ret}");
+                    alarmLogger.LogAlarm($"手动模式：初始化失败，错误代码：{ret}");
                 }
             }
             catch (Exception ex)
             {
-                alarmLogger.LogAlarm($"{dateTime} 手动模式：设置零点异常：{ex}");
+                alarmLogger.LogAlarm($"手动模式：设置零点异常：{ex}");
             }
         }
 
@@ -161,7 +214,7 @@ namespace TestMain.UserControls
             {
                 MyCardNo = 0; // 卡号
                 MyAxis = 0; // 轴号
-                Mymode = 33; // 回零方式为33
+                Mymode = 33; // 回零方式为3/3
 
                 LTDMC.nmc_get_axis_state_machine(MyCardNo, MyAxis, ref statemachine); // 获取轴状态机
                 if (statemachine == 4) // 轴状态机处于准备好状态
@@ -175,14 +228,16 @@ namespace TestMain.UserControls
                     LTDMC.dmc_get_home_result(MyCardNo, MyAxis, ref state); // 判断回零是否正常完成
                     if (state == 1)
                     {
-                        alarmLogger.LogAlarm($"{dateTime} 手动模式：回零正常");
+                        alarmLogger.LogAlarm($"手动模式：回零正常");
                     }
                 }
             }
             catch (Exception ex)
             {
-                alarmLogger.LogAlarm($"{dateTime} 回零异常：{ex}");
+                alarmLogger.LogAlarm($"回零异常：{ex}");
             }
         }
+
+
     }
 }

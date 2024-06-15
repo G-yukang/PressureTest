@@ -3,7 +3,10 @@ using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.IO.Ports;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TestMain.Common;
 using TestMain.Interfaces;
@@ -81,7 +84,118 @@ namespace TestMain
             pidController = new PIDController(1.0, 0.5, 0.1, 0.01); // 初始化PID控制器
             SportsCard(); // 运动卡初始化
             InitializeNavigationMenu("手动模式"); // 初始化导航菜单为手动模式
+            //真空值
+
+            Vacouot();
         }
+
+        public async Task Vacouot()
+        {
+            // 设置串口参数
+            string portName = "COM3"; // 请根据实际情况更改COM端口
+            int baudRate = 38400; // 请根据设备设置更改波特率
+
+            using (SerialPort serialPort = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One))
+            {
+                try
+                {
+                    // 打开串口
+                    serialPort.Open();
+                    serialPort.ReadTimeout = 5000; // 设置读取超时为5000毫秒
+                    Console.WriteLine("串口打开成功");
+
+                    while (true)
+                    {
+                        await ReadVacuumAsync(serialPort, 1);
+                        await Task.Delay(1000);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("串口通信发生错误: " + ex.Message);
+                }
+            }
+        }
+
+        private static async Task ReadVacuumAsync(SerialPort serialPort, int deviceAddress)
+        {
+            string address = deviceAddress.ToString("D2");
+
+            string command = $"{address}D";
+            string checksum = CalculateChecksum(command);
+            command = $":{command}{checksum}\r";
+
+            serialPort.WriteLine(command);
+
+            try
+            {
+                string response = await Task.Run(() =>
+                {
+                    try
+                    {
+                        return serialPort.ReadLine();
+                    }
+                    catch (TimeoutException)
+                    {
+                        return null;
+                    }
+                });
+
+                if (response == null)
+                {
+                    Console.WriteLine("读取超时");
+                    return;
+                }
+
+                Console.WriteLine("设备响应: " + response);
+
+                // 处理响应数据并验证校验和
+                if (response.StartsWith($":{address}") && response.Length > 1)
+                {
+                    string responseData = response.Substring(1, response.Length - 4); // 去掉冒号和最后的校验和与CR
+                    string responseChecksum = response.Substring(response.Length - 3, 2); // 提取响应中的校验和
+                    string calculatedChecksum = CalculateChecksum(responseData);
+
+                    if (responseChecksum.Equals(calculatedChecksum, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // 提取真空度值
+                        int startIndex = response.IndexOf('D') + 1;
+                        int endIndex = response.IndexOf(' ', startIndex);
+                        if (endIndex == -1) endIndex = response.Length - 4; // 如果没有空格，则到结尾前4个字符
+                        string vacuumReading = response.Substring(startIndex, endIndex - startIndex);
+                        Console.WriteLine("真空度: " + vacuumReading);
+                    }
+                    else
+                    {
+                        Console.WriteLine("校验和不匹配");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("无效的响应数据或地址不匹配");
+                }
+            }
+            catch (TimeoutException)
+            {
+                Console.WriteLine("读取超时");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("处理响应时发生错误: " + ex.Message);
+            }
+        }
+
+        // 计算校验和
+        private static string CalculateChecksum(string input)
+        {
+            int checksum = 0;
+            foreach (char c in input)
+            {
+                checksum ^= c;
+            }
+            return checksum.ToString("X2");
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -97,9 +211,9 @@ namespace TestMain
                 // 读取压力指令值并将其转换为有意义的单位
                 int value0 = 0;
                 LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);
-                double value00 = value_AD(0, value0);
+                double value00 = ConvertVoltageToPressure(value0);
                 textBox5.Text = value00.ToString();
-                PressureVD = value00;
+                PressureVD = Math.Round(value00, 2);
 
                 // 读取指定轴的指令位置值并更新显示
                 LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);
@@ -220,36 +334,15 @@ namespace TestMain
             this.ShowWarningDialog("初始卡失败!出错");
             alarmLogger.LogAlarm("初始卡失败!出错");
         }
-
-        private double value_AD(ushort SubIndex, int value)
+        public static double ConvertVoltageToPressure(double voltage)
         {
-            try
+            if (voltage < 0 || voltage > 10)
             {
-                // 根据不同电压模式量程转换值
-                int Value = 0;
-                double _value = 1;
-                LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
-                switch (Value)
-                {
-                    case 0: // 电压模式量程±5V
-                        _value = value * 5 / 32000.0;
-                        break;
-                    case 1: // 电压模式量程1-5V
-                        _value = value * 4 / 32000.0 + 1;
-                        break;
-                    case 2: // 电压模式量程±10V
-                        _value = value * 10 / 32000.0;
-                        break;
-                    case 3: // 电压模式量程0-10V
-                        _value = value * 10 / 32000.0;
-                        break;
-                }
-                return _value;
+                return 0;
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            double pressure = (voltage / 10.0) * 30.0;
+            return pressure;
         }
         #endregion
 
@@ -321,14 +414,14 @@ namespace TestMain
 
         private UserControl CreateControlByType(string type)
         {
-            // 根据类型创建对应的控件
             switch (type)
             {
                 case "手动模式":
                     AddControlToPanel(new IOControls());
                     return new HydropManualMode();
                 case "自动模式":
-                    return null;
+                    AddControlToPanel(new IOControls("自动模式"));
+                    return new HydropAutomatic();
                 case "压力模式":
                     AddControlToPanel(new IOControls());
                     return new HydropPressureMode();
@@ -346,7 +439,10 @@ namespace TestMain
 
         private void AddControlToPanel(UserControl control)
         {
-            // 添加控件到面板
+            // 清理面板上的现有控件
+            uiPanel4.Controls.Clear();
+
+            // 添加新的控件到面板
             uiPanel4.Controls.Add(control);
             control.Dock = DockStyle.Fill;
             control.Show();

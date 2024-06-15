@@ -81,7 +81,7 @@
             this.uiCheckBoxGroup1.Controls.Add(this.uiButton3);
             this.uiCheckBoxGroup1.Controls.Add(this.uiButton2);
             this.uiCheckBoxGroup1.Controls.Add(this.uiButton1);
-            this.uiCheckBoxGroup1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiCheckBoxGroup1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.uiCheckBoxGroup1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiCheckBoxGroup1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(236)))), ((int)(((byte)(255)))));
             this.uiCheckBoxGroup1.Location = new System.Drawing.Point(0, 96);
@@ -187,14 +187,14 @@
             this.uiGroupBox1.Controls.Add(this.uiLabel11);
             this.uiGroupBox1.Controls.Add(this.uiLabel12);
             this.uiGroupBox1.Controls.Add(this.outIO5);
-            this.uiGroupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.uiGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uiGroupBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiGroupBox1.Location = new System.Drawing.Point(0, 0);
             this.uiGroupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiGroupBox1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox1.Name = "uiGroupBox1";
             this.uiGroupBox1.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox1.Size = new System.Drawing.Size(1669, 96);
+            this.uiGroupBox1.Size = new System.Drawing.Size(1669, 196);
             this.uiGroupBox1.TabIndex = 12;
             this.uiGroupBox1.Text = "输出";
             this.uiGroupBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;

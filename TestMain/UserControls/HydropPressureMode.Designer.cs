@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HydropPressureMode));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.uiPanel1 = new Sunny.UI.UIPanel();
             this.uiPanel3 = new Sunny.UI.UIPanel();
             this.uiCheckBoxGroup1 = new Sunny.UI.UICheckBoxGroup();
@@ -56,16 +59,17 @@
             this.uiTextBox2 = new Sunny.UI.UITextBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiTextBox1 = new Sunny.UI.UITextBox();
-            this.uiLineChart1 = new Sunny.UI.UILineChart();
             this.uiPanel2 = new Sunny.UI.UIPanel();
             this.uiButton9 = new Sunny.UI.UIButton();
             this.uiButton8 = new Sunny.UI.UIButton();
             this.uiButton7 = new Sunny.UI.UIButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.uiPanel1.SuspendLayout();
             this.uiPanel3.SuspendLayout();
             this.uiCheckBoxGroup1.SuspendLayout();
             this.uiPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // uiPanel1
@@ -84,8 +88,8 @@
             // 
             // uiPanel3
             // 
+            this.uiPanel3.Controls.Add(this.chart1);
             this.uiPanel3.Controls.Add(this.uiCheckBoxGroup1);
-            this.uiPanel3.Controls.Add(this.uiLineChart1);
             this.uiPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uiPanel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiPanel3.Location = new System.Drawing.Point(0, 0);
@@ -435,20 +439,6 @@
             this.uiTextBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiTextBox1.Watermark = "";
             // 
-            // uiLineChart1
-            // 
-            this.uiLineChart1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.uiLineChart1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLineChart1.LegendFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLineChart1.Location = new System.Drawing.Point(0, 0);
-            this.uiLineChart1.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiLineChart1.MouseDownType = Sunny.UI.UILineChartMouseDownType.Zoom;
-            this.uiLineChart1.Name = "uiLineChart1";
-            this.uiLineChart1.Size = new System.Drawing.Size(1145, 706);
-            this.uiLineChart1.SubFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLineChart1.TabIndex = 39;
-            this.uiLineChart1.Text = "uiLineChart1";
-            // 
             // uiPanel2
             // 
             this.uiPanel2.Controls.Add(this.uiButton9);
@@ -511,6 +501,24 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(1145, 706);
+            this.chart1.TabIndex = 40;
+            this.chart1.Text = "chart1";
+            // 
             // HydropPressureMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -523,6 +531,7 @@
             this.uiPanel3.ResumeLayout(false);
             this.uiCheckBoxGroup1.ResumeLayout(false);
             this.uiPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -553,12 +562,12 @@
         private Sunny.UI.UITextBox uiTextBox2;
         private Sunny.UI.UILabel uiLabel1;
         private Sunny.UI.UITextBox uiTextBox1;
-        private Sunny.UI.UILineChart uiLineChart1;
         private System.Windows.Forms.Timer timer1;
         private Sunny.UI.UIPanel uiPanel2;
         private Sunny.UI.UIButton uiButton9;
         private Sunny.UI.UIButton uiButton8;
         private Sunny.UI.UIButton uiButton7;
         private Sunny.UI.UIPanel uiPanel3;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

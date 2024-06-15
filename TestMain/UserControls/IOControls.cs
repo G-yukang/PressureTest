@@ -16,6 +16,18 @@ namespace TestMain.UserControls
     {
         private AlarmLogger alarmLogger;
         DateTime dateTime;
+
+        public IOControls(string name="")
+        {
+            InitializeComponent();
+            timer1.Start();
+            if (name == "自动模式")
+            {
+                uiCheckBoxGroup1.Visible = false;
+            }
+            else { uiCheckBoxGroup1.Visible = true; }
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -50,11 +62,7 @@ namespace TestMain.UserControls
 
         }
 
-        public IOControls()
-        {
-            InitializeComponent();
-            timer1.Start();
-        }
+
 
         #region 卡号，第几个IO，高电平1
         private void uiButton1_Click(object sender, EventArgs e)
