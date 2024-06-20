@@ -29,47 +29,50 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HydropPressureMode));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HydropPressureMode));
             this.uiPanel1 = new Sunny.UI.UIPanel();
             this.uiPanel3 = new Sunny.UI.UIPanel();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.uiCheckBoxGroup1 = new Sunny.UI.UICheckBoxGroup();
+            this.uiLabel15 = new Sunny.UI.UILabel();
+            this.Speel1 = new Sunny.UI.UITextBox();
+            this.uiLabel2 = new Sunny.UI.UILabel();
+            this.uiLabel16 = new Sunny.UI.UILabel();
             this.uiLabel14 = new Sunny.UI.UILabel();
+            this.Speel2 = new Sunny.UI.UITextBox();
             this.uiLabel13 = new Sunny.UI.UILabel();
-            this.uiLabel12 = new Sunny.UI.UILabel();
-            this.uiLabel11 = new Sunny.UI.UILabel();
+            this.Vacuometertext = new Sunny.UI.UITextBox();
             this.uiLabel10 = new Sunny.UI.UILabel();
+            this.uiLabel12 = new Sunny.UI.UILabel();
+            this.uiLabel3 = new Sunny.UI.UILabel();
+            this.uiLabel11 = new Sunny.UI.UILabel();
             this.uiLabel9 = new Sunny.UI.UILabel();
             this.uiLabel5 = new Sunny.UI.UILabel();
             this.uiLabel6 = new Sunny.UI.UILabel();
-            this.uiTextBox6 = new Sunny.UI.UITextBox();
+            this.CurrenTimeText = new Sunny.UI.UITextBox();
             this.uiLabel7 = new Sunny.UI.UILabel();
-            this.uiTextBox7 = new Sunny.UI.UITextBox();
+            this.GoSpeelText = new Sunny.UI.UITextBox();
             this.uiLabel8 = new Sunny.UI.UILabel();
-            this.uiTextBox8 = new Sunny.UI.UITextBox();
+            this.PressTime = new Sunny.UI.UITextBox();
             this.uiButton2 = new Sunny.UI.UIButton();
             this.uiButton1 = new Sunny.UI.UIButton();
             this.uiLabel4 = new Sunny.UI.UILabel();
-            this.uiTextBox4 = new Sunny.UI.UITextBox();
-            this.uiLabel3 = new Sunny.UI.UILabel();
-            this.uiTextBox3 = new Sunny.UI.UITextBox();
-            this.uiLabel2 = new Sunny.UI.UILabel();
-            this.uiTextBox2 = new Sunny.UI.UITextBox();
+            this.LocationText = new Sunny.UI.UITextBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
-            this.uiTextBox1 = new Sunny.UI.UITextBox();
+            this.PressureText = new Sunny.UI.UITextBox();
             this.uiPanel2 = new Sunny.UI.UIPanel();
             this.uiButton9 = new Sunny.UI.UIButton();
             this.uiButton8 = new Sunny.UI.UIButton();
             this.uiButton7 = new Sunny.UI.UIButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.uiPanel1.SuspendLayout();
             this.uiPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.uiCheckBoxGroup1.SuspendLayout();
             this.uiPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // uiPanel1
@@ -101,31 +104,52 @@
             this.uiPanel3.Text = "uiPanel3";
             this.uiPanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(1145, 706);
+            this.chart1.TabIndex = 40;
+            this.chart1.Text = "chart1";
+            // 
             // uiCheckBoxGroup1
             // 
+            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel15);
+            this.uiCheckBoxGroup1.Controls.Add(this.Speel1);
+            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel2);
+            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel16);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel14);
+            this.uiCheckBoxGroup1.Controls.Add(this.Speel2);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel13);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel12);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel11);
+            this.uiCheckBoxGroup1.Controls.Add(this.Vacuometertext);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel10);
+            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel12);
+            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel3);
+            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel11);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel9);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel5);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel6);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox6);
+            this.uiCheckBoxGroup1.Controls.Add(this.CurrenTimeText);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel7);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox7);
+            this.uiCheckBoxGroup1.Controls.Add(this.GoSpeelText);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel8);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox8);
+            this.uiCheckBoxGroup1.Controls.Add(this.PressTime);
             this.uiCheckBoxGroup1.Controls.Add(this.uiButton2);
             this.uiCheckBoxGroup1.Controls.Add(this.uiButton1);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel4);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox4);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel3);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox3);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiLabel2);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox2);
+            this.uiCheckBoxGroup1.Controls.Add(this.LocationText);
             this.uiCheckBoxGroup1.Controls.Add(this.uiLabel1);
-            this.uiCheckBoxGroup1.Controls.Add(this.uiTextBox1);
+            this.uiCheckBoxGroup1.Controls.Add(this.PressureText);
             this.uiCheckBoxGroup1.Dock = System.Windows.Forms.DockStyle.Right;
             this.uiCheckBoxGroup1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiCheckBoxGroup1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(236)))), ((int)(((byte)(255)))));
@@ -140,74 +164,167 @@
             this.uiCheckBoxGroup1.Text = "参数设置";
             this.uiCheckBoxGroup1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // uiLabel15
+            // 
+            this.uiLabel15.BackColor = System.Drawing.Color.Transparent;
+            this.uiLabel15.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel15.Location = new System.Drawing.Point(406, 69);
+            this.uiLabel15.Name = "uiLabel15";
+            this.uiLabel15.Size = new System.Drawing.Size(115, 49);
+            this.uiLabel15.TabIndex = 62;
+            this.uiLabel15.Text = "pa";
+            this.uiLabel15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Speel1
+            // 
+            this.Speel1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.Speel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Speel1.Location = new System.Drawing.Point(149, 128);
+            this.Speel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Speel1.MinimumSize = new System.Drawing.Size(1, 16);
+            this.Speel1.Name = "Speel1";
+            this.Speel1.Padding = new System.Windows.Forms.Padding(5);
+            this.Speel1.ShowText = false;
+            this.Speel1.Size = new System.Drawing.Size(250, 49);
+            this.Speel1.TabIndex = 39;
+            this.Speel1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Speel1.Watermark = "";
+            // 
+            // uiLabel2
+            // 
+            this.uiLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.uiLabel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel2.Location = new System.Drawing.Point(24, 128);
+            this.uiLabel2.Name = "uiLabel2";
+            this.uiLabel2.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel2.TabIndex = 40;
+            this.uiLabel2.Text = "速度1:";
+            this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // uiLabel16
+            // 
+            this.uiLabel16.BackColor = System.Drawing.Color.Transparent;
+            this.uiLabel16.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel16.Location = new System.Drawing.Point(21, 69);
+            this.uiLabel16.Name = "uiLabel16";
+            this.uiLabel16.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel16.TabIndex = 61;
+            this.uiLabel16.Text = "真空计:";
+            this.uiLabel16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // uiLabel14
             // 
             this.uiLabel14.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel14.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel14.Location = new System.Drawing.Point(458, 448);
+            this.uiLabel14.Location = new System.Drawing.Point(406, 482);
             this.uiLabel14.Name = "uiLabel14";
-            this.uiLabel14.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel14.Size = new System.Drawing.Size(115, 49);
             this.uiLabel14.TabIndex = 59;
             this.uiLabel14.Text = "S";
             this.uiLabel14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Speel2
+            // 
+            this.Speel2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.Speel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Speel2.Location = new System.Drawing.Point(149, 187);
+            this.Speel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Speel2.MinimumSize = new System.Drawing.Size(1, 16);
+            this.Speel2.Name = "Speel2";
+            this.Speel2.Padding = new System.Windows.Forms.Padding(5);
+            this.Speel2.ShowText = false;
+            this.Speel2.Size = new System.Drawing.Size(250, 49);
+            this.Speel2.TabIndex = 41;
+            this.Speel2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Speel2.Watermark = "";
             // 
             // uiLabel13
             // 
             this.uiLabel13.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel13.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel13.Location = new System.Drawing.Point(458, 389);
+            this.uiLabel13.Location = new System.Drawing.Point(409, 423);
             this.uiLabel13.Name = "uiLabel13";
-            this.uiLabel13.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel13.Size = new System.Drawing.Size(115, 49);
             this.uiLabel13.TabIndex = 58;
             this.uiLabel13.Text = "mm/s";
             this.uiLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // uiLabel12
+            // Vacuometertext
             // 
-            this.uiLabel12.BackColor = System.Drawing.Color.Transparent;
-            this.uiLabel12.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel12.Location = new System.Drawing.Point(458, 330);
-            this.uiLabel12.Name = "uiLabel12";
-            this.uiLabel12.Size = new System.Drawing.Size(112, 49);
-            this.uiLabel12.TabIndex = 57;
-            this.uiLabel12.Text = "S";
-            this.uiLabel12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel11
-            // 
-            this.uiLabel11.BackColor = System.Drawing.Color.Transparent;
-            this.uiLabel11.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel11.Location = new System.Drawing.Point(458, 271);
-            this.uiLabel11.Name = "uiLabel11";
-            this.uiLabel11.Size = new System.Drawing.Size(112, 49);
-            this.uiLabel11.TabIndex = 56;
-            this.uiLabel11.Text = "mm";
-            this.uiLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Vacuometertext.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.Vacuometertext.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Vacuometertext.Location = new System.Drawing.Point(149, 69);
+            this.Vacuometertext.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Vacuometertext.MinimumSize = new System.Drawing.Size(1, 16);
+            this.Vacuometertext.Name = "Vacuometertext";
+            this.Vacuometertext.Padding = new System.Windows.Forms.Padding(5);
+            this.Vacuometertext.ShowText = false;
+            this.Vacuometertext.Size = new System.Drawing.Size(250, 49);
+            this.Vacuometertext.TabIndex = 60;
+            this.Vacuometertext.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Vacuometertext.Watermark = "";
             // 
             // uiLabel10
             // 
             this.uiLabel10.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel10.Location = new System.Drawing.Point(458, 212);
+            this.uiLabel10.Location = new System.Drawing.Point(406, 187);
             this.uiLabel10.Name = "uiLabel10";
-            this.uiLabel10.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel10.Size = new System.Drawing.Size(115, 49);
             this.uiLabel10.TabIndex = 55;
             this.uiLabel10.Text = "mm/s";
             this.uiLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel12
+            // 
+            this.uiLabel12.BackColor = System.Drawing.Color.Transparent;
+            this.uiLabel12.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel12.Location = new System.Drawing.Point(409, 364);
+            this.uiLabel12.Name = "uiLabel12";
+            this.uiLabel12.Size = new System.Drawing.Size(115, 49);
+            this.uiLabel12.TabIndex = 57;
+            this.uiLabel12.Text = "S";
+            this.uiLabel12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel3
+            // 
+            this.uiLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.uiLabel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel3.Location = new System.Drawing.Point(21, 187);
+            this.uiLabel3.Name = "uiLabel3";
+            this.uiLabel3.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel3.TabIndex = 42;
+            this.uiLabel3.Text = "速度2:";
+            this.uiLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // uiLabel11
+            // 
+            this.uiLabel11.BackColor = System.Drawing.Color.Transparent;
+            this.uiLabel11.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.uiLabel11.Location = new System.Drawing.Point(409, 305);
+            this.uiLabel11.Name = "uiLabel11";
+            this.uiLabel11.Size = new System.Drawing.Size(115, 49);
+            this.uiLabel11.TabIndex = 56;
+            this.uiLabel11.Text = "mm";
+            this.uiLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiLabel9
             // 
             this.uiLabel9.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel9.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel9.Location = new System.Drawing.Point(458, 153);
+            this.uiLabel9.Location = new System.Drawing.Point(406, 128);
             this.uiLabel9.Name = "uiLabel9";
-            this.uiLabel9.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel9.Size = new System.Drawing.Size(115, 49);
             this.uiLabel9.TabIndex = 54;
             this.uiLabel9.Text = "mm/s";
             this.uiLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -217,9 +334,9 @@
             this.uiLabel5.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel5.Location = new System.Drawing.Point(458, 94);
+            this.uiLabel5.Location = new System.Drawing.Point(406, 246);
             this.uiLabel5.Name = "uiLabel5";
-            this.uiLabel5.Size = new System.Drawing.Size(112, 49);
+            this.uiLabel5.Size = new System.Drawing.Size(115, 49);
             this.uiLabel5.TabIndex = 53;
             this.uiLabel5.Text = "kg";
             this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -229,87 +346,87 @@
             this.uiLabel6.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel6.Location = new System.Drawing.Point(73, 448);
+            this.uiLabel6.Location = new System.Drawing.Point(21, 482);
             this.uiLabel6.Name = "uiLabel6";
             this.uiLabel6.Size = new System.Drawing.Size(112, 49);
             this.uiLabel6.TabIndex = 52;
             this.uiLabel6.Text = "当前保压时间:";
-            this.uiLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiTextBox6
+            // CurrenTimeText
             // 
-            this.uiTextBox6.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox6.Location = new System.Drawing.Point(201, 448);
-            this.uiTextBox6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox6.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox6.Name = "uiTextBox6";
-            this.uiTextBox6.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox6.ShowText = false;
-            this.uiTextBox6.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox6.TabIndex = 51;
-            this.uiTextBox6.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox6.Watermark = "";
+            this.CurrenTimeText.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.CurrenTimeText.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CurrenTimeText.Location = new System.Drawing.Point(149, 482);
+            this.CurrenTimeText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CurrenTimeText.MinimumSize = new System.Drawing.Size(1, 16);
+            this.CurrenTimeText.Name = "CurrenTimeText";
+            this.CurrenTimeText.Padding = new System.Windows.Forms.Padding(5);
+            this.CurrenTimeText.ShowText = false;
+            this.CurrenTimeText.Size = new System.Drawing.Size(250, 49);
+            this.CurrenTimeText.TabIndex = 51;
+            this.CurrenTimeText.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.CurrenTimeText.Watermark = "";
             // 
             // uiLabel7
             // 
             this.uiLabel7.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel7.Location = new System.Drawing.Point(73, 389);
+            this.uiLabel7.Location = new System.Drawing.Point(24, 423);
             this.uiLabel7.Name = "uiLabel7";
             this.uiLabel7.Size = new System.Drawing.Size(112, 49);
             this.uiLabel7.TabIndex = 50;
             this.uiLabel7.Text = "回程速度:";
-            this.uiLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiTextBox7
+            // GoSpeelText
             // 
-            this.uiTextBox7.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox7.Location = new System.Drawing.Point(201, 389);
-            this.uiTextBox7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox7.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox7.Name = "uiTextBox7";
-            this.uiTextBox7.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox7.ShowText = false;
-            this.uiTextBox7.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox7.TabIndex = 49;
-            this.uiTextBox7.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox7.Watermark = "";
+            this.GoSpeelText.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.GoSpeelText.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.GoSpeelText.Location = new System.Drawing.Point(149, 423);
+            this.GoSpeelText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.GoSpeelText.MinimumSize = new System.Drawing.Size(1, 16);
+            this.GoSpeelText.Name = "GoSpeelText";
+            this.GoSpeelText.Padding = new System.Windows.Forms.Padding(5);
+            this.GoSpeelText.ShowText = false;
+            this.GoSpeelText.Size = new System.Drawing.Size(250, 49);
+            this.GoSpeelText.TabIndex = 49;
+            this.GoSpeelText.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GoSpeelText.Watermark = "";
             // 
             // uiLabel8
             // 
             this.uiLabel8.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel8.Location = new System.Drawing.Point(73, 330);
+            this.uiLabel8.Location = new System.Drawing.Point(24, 364);
             this.uiLabel8.Name = "uiLabel8";
             this.uiLabel8.Size = new System.Drawing.Size(112, 49);
             this.uiLabel8.TabIndex = 48;
             this.uiLabel8.Text = "保压时间:";
-            this.uiLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiTextBox8
+            // PressTime
             // 
-            this.uiTextBox8.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox8.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox8.Location = new System.Drawing.Point(201, 330);
-            this.uiTextBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox8.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox8.Name = "uiTextBox8";
-            this.uiTextBox8.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox8.ShowText = false;
-            this.uiTextBox8.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox8.TabIndex = 47;
-            this.uiTextBox8.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox8.Watermark = "";
+            this.PressTime.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PressTime.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PressTime.Location = new System.Drawing.Point(149, 364);
+            this.PressTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.PressTime.MinimumSize = new System.Drawing.Size(1, 16);
+            this.PressTime.Name = "PressTime";
+            this.PressTime.Padding = new System.Windows.Forms.Padding(5);
+            this.PressTime.ShowText = false;
+            this.PressTime.Size = new System.Drawing.Size(250, 49);
+            this.PressTime.TabIndex = 47;
+            this.PressTime.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PressTime.Watermark = "";
             // 
             // uiButton2
             // 
             this.uiButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton2.Location = new System.Drawing.Point(311, 562);
+            this.uiButton2.Location = new System.Drawing.Point(305, 562);
             this.uiButton2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton2.Name = "uiButton2";
             this.uiButton2.Size = new System.Drawing.Size(170, 68);
@@ -322,7 +439,7 @@
             // 
             this.uiButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton1.Location = new System.Drawing.Point(76, 562);
+            this.uiButton1.Location = new System.Drawing.Point(66, 562);
             this.uiButton1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton1.Name = "uiButton1";
             this.uiButton1.Size = new System.Drawing.Size(170, 68);
@@ -336,108 +453,54 @@
             this.uiLabel4.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel4.Location = new System.Drawing.Point(73, 271);
+            this.uiLabel4.Location = new System.Drawing.Point(24, 305);
             this.uiLabel4.Name = "uiLabel4";
             this.uiLabel4.Size = new System.Drawing.Size(112, 49);
             this.uiLabel4.TabIndex = 44;
             this.uiLabel4.Text = "变速位置:";
-            this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiTextBox4
+            // LocationText
             // 
-            this.uiTextBox4.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox4.Location = new System.Drawing.Point(201, 271);
-            this.uiTextBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox4.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox4.Name = "uiTextBox4";
-            this.uiTextBox4.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox4.ShowText = false;
-            this.uiTextBox4.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox4.TabIndex = 43;
-            this.uiTextBox4.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox4.Watermark = "";
-            // 
-            // uiLabel3
-            // 
-            this.uiLabel3.BackColor = System.Drawing.Color.Transparent;
-            this.uiLabel3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel3.Location = new System.Drawing.Point(73, 212);
-            this.uiLabel3.Name = "uiLabel3";
-            this.uiLabel3.Size = new System.Drawing.Size(112, 49);
-            this.uiLabel3.TabIndex = 42;
-            this.uiLabel3.Text = "速度2：";
-            this.uiLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // uiTextBox3
-            // 
-            this.uiTextBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox3.Location = new System.Drawing.Point(201, 212);
-            this.uiTextBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox3.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox3.Name = "uiTextBox3";
-            this.uiTextBox3.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox3.ShowText = false;
-            this.uiTextBox3.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox3.TabIndex = 41;
-            this.uiTextBox3.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox3.Watermark = "";
-            // 
-            // uiLabel2
-            // 
-            this.uiLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.uiLabel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel2.Location = new System.Drawing.Point(73, 153);
-            this.uiLabel2.Name = "uiLabel2";
-            this.uiLabel2.Size = new System.Drawing.Size(112, 49);
-            this.uiLabel2.TabIndex = 40;
-            this.uiLabel2.Text = "速度1:";
-            this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // uiTextBox2
-            // 
-            this.uiTextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox2.Location = new System.Drawing.Point(201, 153);
-            this.uiTextBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox2.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox2.Name = "uiTextBox2";
-            this.uiTextBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox2.ShowText = false;
-            this.uiTextBox2.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox2.TabIndex = 39;
-            this.uiTextBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox2.Watermark = "";
+            this.LocationText.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.LocationText.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LocationText.Location = new System.Drawing.Point(149, 305);
+            this.LocationText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LocationText.MinimumSize = new System.Drawing.Size(1, 16);
+            this.LocationText.Name = "LocationText";
+            this.LocationText.Padding = new System.Windows.Forms.Padding(5);
+            this.LocationText.ShowText = false;
+            this.LocationText.Size = new System.Drawing.Size(250, 49);
+            this.LocationText.TabIndex = 43;
+            this.LocationText.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LocationText.Watermark = "";
             // 
             // uiLabel1
             // 
             this.uiLabel1.BackColor = System.Drawing.Color.Transparent;
             this.uiLabel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiLabel1.Location = new System.Drawing.Point(73, 94);
+            this.uiLabel1.Location = new System.Drawing.Point(21, 246);
             this.uiLabel1.Name = "uiLabel1";
             this.uiLabel1.Size = new System.Drawing.Size(112, 49);
             this.uiLabel1.TabIndex = 38;
             this.uiLabel1.Text = "压力设定:";
-            this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiTextBox1
+            // PressureText
             // 
-            this.uiTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBox1.Location = new System.Drawing.Point(201, 94);
-            this.uiTextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox1.MinimumSize = new System.Drawing.Size(1, 16);
-            this.uiTextBox1.Name = "uiTextBox1";
-            this.uiTextBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox1.ShowText = false;
-            this.uiTextBox1.Size = new System.Drawing.Size(250, 49);
-            this.uiTextBox1.TabIndex = 37;
-            this.uiTextBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiTextBox1.Watermark = "";
+            this.PressureText.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PressureText.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PressureText.Location = new System.Drawing.Point(149, 246);
+            this.PressureText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.PressureText.MinimumSize = new System.Drawing.Size(1, 16);
+            this.PressureText.Name = "PressureText";
+            this.PressureText.Padding = new System.Windows.Forms.Padding(5);
+            this.PressureText.ShowText = false;
+            this.PressureText.Size = new System.Drawing.Size(250, 49);
+            this.PressureText.TabIndex = 37;
+            this.PressureText.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PressureText.Watermark = "";
             // 
             // uiPanel2
             // 
@@ -501,24 +564,6 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(1145, 706);
-            this.chart1.TabIndex = 40;
-            this.chart1.Text = "chart1";
-            // 
             // HydropPressureMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -529,9 +574,9 @@
             this.Load += new System.EventHandler(this.HydropPressureMode_Load);
             this.uiPanel1.ResumeLayout(false);
             this.uiPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.uiCheckBoxGroup1.ResumeLayout(false);
             this.uiPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -547,21 +592,21 @@
         private Sunny.UI.UILabel uiLabel9;
         private Sunny.UI.UILabel uiLabel5;
         private Sunny.UI.UILabel uiLabel6;
-        private Sunny.UI.UITextBox uiTextBox6;
+        private Sunny.UI.UITextBox CurrenTimeText;
         private Sunny.UI.UILabel uiLabel7;
-        private Sunny.UI.UITextBox uiTextBox7;
+        private Sunny.UI.UITextBox GoSpeelText;
         private Sunny.UI.UILabel uiLabel8;
-        private Sunny.UI.UITextBox uiTextBox8;
+        private Sunny.UI.UITextBox PressTime;
         private Sunny.UI.UIButton uiButton2;
         private Sunny.UI.UIButton uiButton1;
         private Sunny.UI.UILabel uiLabel4;
-        private Sunny.UI.UITextBox uiTextBox4;
+        private Sunny.UI.UITextBox LocationText;
         private Sunny.UI.UILabel uiLabel3;
-        private Sunny.UI.UITextBox uiTextBox3;
+        private Sunny.UI.UITextBox Speel2;
         private Sunny.UI.UILabel uiLabel2;
-        private Sunny.UI.UITextBox uiTextBox2;
+        private Sunny.UI.UITextBox Speel1;
         private Sunny.UI.UILabel uiLabel1;
-        private Sunny.UI.UITextBox uiTextBox1;
+        private Sunny.UI.UITextBox PressureText;
         private System.Windows.Forms.Timer timer1;
         private Sunny.UI.UIPanel uiPanel2;
         private Sunny.UI.UIButton uiButton9;
@@ -569,5 +614,8 @@
         private Sunny.UI.UIButton uiButton7;
         private Sunny.UI.UIPanel uiPanel3;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private Sunny.UI.UILabel uiLabel15;
+        private Sunny.UI.UILabel uiLabel16;
+        private Sunny.UI.UITextBox Vacuometertext;
     }
 }

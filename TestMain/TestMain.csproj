@@ -292,6 +292,12 @@
     <Compile Include="UserControls\IOControls.Designer.cs">
       <DependentUpon>IOControls.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SerialPortForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SerialPortForm.Designer.cs">
+      <DependentUpon>SerialPortForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\User.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -350,6 +356,9 @@
     <EmbeddedResource Include="UserControls\IOControls.resx">
       <DependentUpon>IOControls.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SerialPortForm.resx">
+      <DependentUpon>SerialPortForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\User.resx">
       <DependentUpon>User.cs</DependentUpon>
     </EmbeddedResource>
@@ -377,6 +386,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mongocrypt.dll" />
+    <None Include="Resources\状态灯.png" />
+    <None Include="Resources\状态灯 %281%29.png" />
+    <None Include="Resources\设置.png" />
     <None Include="Resources\minus.png" />
     <None Include="Resources\add.png" />
   </ItemGroup>

@@ -6,40 +6,171 @@ using System.Threading.Tasks;
 
 namespace TestMain
 {
+    public class GlobalDate
+    {
+        /// <summary>
+        /// 真空计
+        /// </summary>
+        /// <param name="Vacuometer">真空计</param>
+        public static string Vacuometer { get; set; }
+    }
     public class PressDate
     {
-        public ushort _CardID { get; set; }
-        public double PressureVD { get; set; }                   // 当前位置  
-        public double dCmdPos { get; set; }                      // 指令位置
-        public double CurSpeed { get; set; }                     // 当前速度
-        public double dEnPos { get; set; }                       // 编码器反馈位置
-        public ushort usCardNum { get; set; }                    // IO
-        public bool startdian { get; set; }
-        public ushort cardNo { get; set; }                      // 卡号
-        public ushort portNum { get; set; }                     // 端口号
-        public ushort actualTorqueAddress { get; set; }         // 实际转矩地址
-        public ushort targetTorqueAddress { get; set; }         // 目标转矩地址
-        public ushort dataLen { get; set; }                     // 数据长度
-        public uint actualValue { get; set; }                    // 实际示例值
-        public uint targetValue { get; set; }                    // 目标示例值
-        public double qswz { get; set; }                         // 起始位置
-        public double yxwz { get; set; }                         // 运行位置
-        public double bhwz { get; set; }                         // 闭合位置
-        public double kmwz1 { get; set; }                        // 开模位置
-        public double kmwz2 { get; set; }                        // 开模位置
-        public double kmwz3 { get; set; }                        // 开模位置
-        public double dStartVel { get; set; }                    // 起始速度
-        public double dMaxVel { get; set; }                      // 运行速度
-        public double dStopVel { get; set; }                     // 停止速度
-        public double HdStartVel { get; set; }                   // 开模速度
-        public double HdMaxVel { get; set; }                     // 开模速度
-        public double HdStopVel { get; set; }                    // 开模速度        
-        public double dTacc { get; set; }                        // 加速时间
-        public double dTdec { get; set; }                        // 减速时间
-        public double qsyl { get; set; }                         // 压力起始
-        public double yxyl { get; set; }                         // 压力运行
-        public double bhyl { get; set; }                         // 压力闭合
-        public double kmyl { get; set; }                         // 压力开模
+        /// <summary>
+        /// 卡号
+        /// </summary>
+        /// <param name="cardNo">卡号</param>
+        public static ushort cardNo { get; set; } = 0;
+        /// <summary>
+        /// 端口号
+        /// </summary>
+        /// <param name="portNum">端口号</param>
+        public static ushort portNum { get; set; } = 1;
+        /// <summary>
+        /// 实际转矩地址
+        /// </summary>
+        /// <param name="actualTorqueAddress">实际转矩地址</param>
+        public static ushort actualTorqueAddress { get; set; } = 0x6077;
+        /// <summary>
+        /// 目标转矩地址
+        /// </summary>
+        /// <param name="targetTorqueAddress">目标转矩地址</param>
+        public static ushort targetTorqueAddress { get; set; } = 0x6071;
+        /// <summary>
+        /// 数据长度
+        /// </summary>
+        /// <param name="dataLen">数据长度</param>
+        public static ushort dataLen { get; set; } = 4;
+        /// <summary>
+        /// 数据长度
+        /// </summary>
+        /// <param name="actualValue">数据长度</param>
+        public static short actualValue { get; set; } = 4;
+        /// <summary>
+        /// 数据长度
+        /// </summary>
+        /// <param name="TargetValue">数据长度</param>
+        public static uint TargetValue { get; set; } = 4;
+        /// <summary>
+        /// ID
+        /// </summary>
+        /// <param name="_CardID">ID</param>
+        public static ushort _CardID { get; set; }
+        /// <summary>
+        /// 压力
+        /// </summary>
+        /// <param name="PressureVD">压力</param>
+        public static double PressureVD { get; set; }
+        /// <summary>
+        /// 当前位置
+        /// </summary>
+        /// <param name="CurrentPos">当前位置</param>
+        public static double CurrentPos { get; set; }
+        /// <summary>
+        /// 指令位置
+        /// </summary>
+        /// <param name="dCmdPos">指令位置</param>
+        public static double dCmdPos { get; set; }
+        /// <summary>
+        /// 当前速度
+        /// </summary>
+        /// <param name="CurSpeed">当前速度</param>
+        public static double CurSpeed { get; set; }
+        /// <summary>
+        /// 编码器反馈位置
+        /// </summary>
+        /// <param name="dEnPos">编码器反馈位置</param>
+        public static double dEnPos { get; set; }
+        /// <summary>
+        /// 起始位置
+        /// </summary>
+        /// <param name="InitialPosition">起始位置</param>
+        public static double InitialPosition { get; set; }
+        /// <summary>
+        /// 运行位置
+        /// </summary>
+        /// <param name="RunningPosition">运行位置</param>
+        public static double RunningPosition { get; set; }
+        /// <summary>
+        /// 闭合位置
+        /// </summary>
+        /// <param name="OnPosition">闭合位置</param>
+        public static double OnPosition { get; set; }
+        /// <summary>
+        /// 开模位置1
+        /// </summary>
+        /// <param name="OpeningPosition1">开模位置1</param>
+        public static double OpeningPosition1 { get; set; }
+        /// <summary>
+        /// 开模位置2
+        /// </summary>
+        /// <param name="OpeningPosition2">开模位置2</param>
+        public static double OpeningPosition2 { get; set; }
+        /// <summary>
+        /// 开模位置3
+        /// </summary>
+        /// <param name="OpeningPosition3">开模位置3</param>
+        public static double OpeningPosition3 { get; set; }
+        /// <summary>
+        /// 起始速度
+        /// </summary>
+        /// <param name="StartSpeed">起始速度</param>
+        public static double StartSpeed { get; set; }
+        /// <summary>
+        /// 运行速度
+        /// </summary>
+        /// <param name="RunningSpeed">运行速度</param>
+        public static double RunningSpeed { get; set; }
+        /// <summary>
+        /// 停止速度
+        /// </summary>
+        /// <param name="StopSpeed">停止速度</param>
+        public static double StopSpeed { get; set; }
+        /// <summary>
+        /// 开模速度
+        /// </summary>
+        /// <param name="OpeningSpeed1">开模速度</param>
+        public static double OpeningSpeed1 { get; set; }
+        /// <summary>
+        /// 开模速度
+        /// </summary>
+        /// <param name="OpeningSpeed2">开模速度</param>
+        public static double OpeningSpeed2 { get; set; }
+        /// <summary>
+        /// 开模速度
+        /// </summary>
+        /// <param name="OpeningSpeed3">开模速度</param>
+        public static double OpeningSpeed3 { get; set; }
+        /// <summary>
+        /// 加速时间
+        /// </summary>
+        /// <param name="AccelerationTime">加速时间</param>        
+        public static double AccelerationTime { get; set; }
+        /// <summary>
+        /// 减速时间
+        /// </summary>
+        /// <param name="StopTime">减速时间</param>
+        public static double StopTime { get; set; }
+        /// <summary>
+        /// 压力起始
+        /// </summary>
+        /// <param name="PressureInitiation">压力起始</param>
+        public static double PressureInitiation { get; set; }
+        /// <summary>
+        /// 压力运行
+        /// </summary>
+        /// <param name="PressureRunning">压力运行</param>
+        public static double PressureRunning { get; set; }
+        /// <summary>
+        /// 压力闭合
+        /// </summary>
+        /// <param name="PressureOn">压力闭合</param>
+        public static double PressureOn { get; set; }
+        /// <summary>
+        /// 压力开模
+        /// </summary>
+        /// <param name="PressureOpening">压力开模</param>
+        public static double PressureOpening { get; set; }
     }
 
     public class TitlePanel1

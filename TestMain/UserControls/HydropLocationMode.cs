@@ -70,13 +70,21 @@ namespace TestMain.UserControls
         //启动
         private void uiButton1_Click(object sender, EventArgs e)
         {
-            // 调用电机控制器的启动方法
-            parameter.StartMotor();
+            try
+            {
+                // 调用电机控制器的启动方法
+                parameter.StartMotor();
 
-            //开始读取实时压力
-            timer1.Start();
-            //画线
-            Cracc();
+                //开始读取实时压力
+                timer1.Start();
+                //画线
+                Cracc();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -85,11 +93,14 @@ namespace TestMain.UserControls
             RealTime();
 
             // 获取当前时间作为X轴值
+
             System.DateTime currentTime = System.DateTime.Now;
 
             uiLineChart1.Option.AddData("Line1", currentTime, PressureVD);
 
             uiLineChart1.Refresh(); // 刷新图表
+
+            Vacuometertext.Text = GlobalDate.Vacuometer;
 
             //模拟数据
             // SimulatedData();
@@ -178,13 +189,6 @@ namespace TestMain.UserControls
 
             uiLineChart1.Refresh(); // 刷新图表
             index++;
-
-            if (index > 50)
-            {
-                // uiLineChart1.Option.XAxis.SetRange(index - 50, index + 20); // 设置X轴显示范围
-            }
-
-
 
             // 动态调整PID参数示例
             if (processValue > 90) // 如果过程值超过90

@@ -116,12 +116,35 @@ namespace TestMain.UserControls
             // 启动定时器
             timer1.Start();
         }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //真空计
+            Vacuometertext.Text = GlobalDate.Vacuometer;
+
+
+            // 获取当前时间
+            DateTime now = DateTime.Now;
+
+            // 生成模拟数据
+            double pressureValue = random.Next(100, 1000);
+            double positionValue = random.Next(100, 1000);
+
+            // 添加数据点
+            chart1.Series["压力"].Points.AddXY(now, pressureValue);
+            chart1.Series["位置"].Points.AddXY(now, positionValue);
+
+            // 移动X轴范围以显示最新的数据
+            chart1.ChartAreas[0].AxisX.Minimum = dateTime.ToOADate();
+            chart1.ChartAreas[0].AxisX.Maximum = DateTime.Now.ToOADate();
+
+
+            Vacuometertext.Text = GlobalDate.Vacuometer;
+        }
 
         private void uiButton1_Click(object sender, EventArgs e)
         {
 
-
-        }
+        }            
         private void EditAxisRange(Axis axis, string axisTitle)
         {
             using (var inputDialog = new InputDialog($"请输入新的{axisTitle}范围值（最小值,最大值）："))
@@ -158,23 +181,7 @@ namespace TestMain.UserControls
                 }
             }
         }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            // 获取当前时间
-            DateTime now = DateTime.Now;
 
-            // 生成模拟数据
-            double pressureValue = random.Next(100, 1000);
-            double positionValue = random.Next(100, 1000);
-
-            // 添加数据点
-            chart1.Series["压力"].Points.AddXY(now, pressureValue);
-            chart1.Series["位置"].Points.AddXY(now, positionValue);
-
-            // 移动X轴范围以显示最新的数据
-            chart1.ChartAreas[0].AxisX.Minimum = dateTime.ToOADate();
-            chart1.ChartAreas[0].AxisX.Maximum = DateTime.Now.ToOADate();
-        }
         private void SaveAxisConfig(string axisTitle, double minValue, double maxValue)
         {
             var lines = File.Exists(ConfigFilePath) ? File.ReadAllLines(ConfigFilePath).ToList() : new List<string>();
@@ -206,6 +213,7 @@ namespace TestMain.UserControls
                 }
             }
         }
+
         #region 点击事件
         //CardNo: 控制卡卡号  axis: 轴号  home_mode: 回零模式  Low_Vel: 回零低速
         //High_Vel: 回零高速  Tacc: 回零加速时间  Tdec: 回零减速时间 Offsetpos: 回零偏移

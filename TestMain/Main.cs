@@ -1,10 +1,9 @@
 ﻿using log4net;
 using Sunny.UI;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.IO.Ports;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,65 +11,22 @@ using TestMain.Common;
 using TestMain.Interfaces;
 using TestMain.Model;
 using TestMain.UserControls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TestMain
 {
     public partial class Main : UIForm2
     {
-        #region 全局变量
-        private readonly Label[] arrLabel = new Label[8];
-        private readonly List<PointF> arrPointList = new List<PointF>();
-        private readonly Button[] arrButton = new Button[8];
+        #region 全局字段
         private AlarmLogger alarmLogger;
-        private readonly XmlHandler<HydropressModel> xmlFileManager = new XmlHandler<HydropressModel>();
         private UserControl currentControl;
-
-        private double qswz;                // 起始位置
-        private double yxwz;                // 运行位置
-        private double bhwz;                // 闭合位置
-        private double kmwz1;               // 开模位置
-        private double kmwz2;               // 开模位置
-        private double kmwz3;               // 开模位置
-        private double dStartVel;           // 起始速度
-        private double dMaxVel;             // 运行速度
-        private double dStopVel;            // 停止速度
-        private double HdStartVel;          // 开模速度
-        private double HdMaxVel;            // 开模速度
-        private double HdStopVel;           // 开模速度        
-        private double dTacc;               // 加速时间
-        private double dTdec;               // 减速时间
-        private double qsyl;                // 压力起始
-        private double yxyl;                // 压力运行
-        private double bhyl;                // 压力闭合
-        private double kmyl;                // 压力开模
-
-        private ushort _CardID;
-        private double PressureVD;          // 压力      
-        private double CurrentPos;          // 当前位置  
-        private double dCmdPos;             // 指令位置
-        private double CurSpeed;            // 当前速度
-        private double dEnPos;              // 编码器反馈位置
-        private ushort usCardNum;           // IO
-        private bool startdian;
-
-        // 压机
-        private readonly ushort cardNo = 0;                   // 卡号
-        private readonly ushort portNum = 1;                  // 端口号
-        private readonly ushort actualTorqueAddress = 0x6077; // 实际转矩地址
-        private readonly ushort targetTorqueAddress = 0x6071; // 目标转矩地址
-        private readonly ushort dataLen = 4;                  // 数据长度
-        private uint actualValue;                             // 实际示例值
-        private uint targetValue;                             // 目标示例值
-
-        private static bool _shouldStop;
-        private Thread thread1;
-        private Thread thread2;
-
-        private double setpoint = 50; // 设置值，即期望的压力值
-        private double processValue = 0; // 初始过程值，即当前的压力值
-        private Random random = new Random();
-        private int index = 0;
-        private PIDController pidController; // PID控制器实例
+        private double dCmdPos;
+        private double CurSpeed;
+        private double dEnPos;
+        private uint actualValue;
+        private uint targetValue;
+        private PIDController pidController;
+        static SerialPort _serialPort;
         #endregion
 
         public Main()
@@ -82,150 +38,138 @@ namespace TestMain
         {
             alarmLogger = new AlarmLogger();
             pidController = new PIDController(1.0, 0.5, 0.1, 0.01); // 初始化PID控制器
-            SportsCard(); // 运动卡初始化
+            InitializeSportsCard(); // 运动卡初始化
             InitializeNavigationMenu("手动模式"); // 初始化导航菜单为手动模式
-            //真空值
-
-            Vacouot();
+            timer1.Start();
+            // 启动真空度读取
+            StartVacuumReading();
         }
 
-        public async Task Vacouot()
+        #region 串口真空
+        public void StartVacuumReading()
         {
-            // 设置串口参数
-            string portName = "COM3"; // 请根据实际情况更改COM端口
-            int baudRate = 38400; // 请根据设备设置更改波特率
+            string portName = "COM3"; // 根据实际情况更改COM端口
+            int baudRate = 38400; // 根据设备设置更改波特率
 
+            Thread readThread = new Thread(() => ReadFromSerialPort(portName, baudRate));
+            readThread.IsBackground = true;
+            readThread.Start();
+        }
+        private void ReadFromSerialPort(string portName, int baudRate)
+        {
             using (SerialPort serialPort = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One))
             {
                 try
                 {
                     // 打开串口
                     serialPort.Open();
-                    serialPort.ReadTimeout = 5000; // 设置读取超时为5000毫秒
                     Console.WriteLine("串口打开成功");
 
                     while (true)
                     {
-                        await ReadVacuumAsync(serialPort, 1);
-                        await Task.Delay(1000);
+                        string dataToSend = ":01D45\r";
+                        serialPort.WriteLine(dataToSend);
+                        Console.WriteLine($"发送数据: {dataToSend}");
+
+                        Thread.Sleep(500); // 根据需要调整等待时间
+
+                        if (serialPort.BytesToRead > 0)
+                        {
+                            int len = serialPort.BytesToRead; //获取可以读取的字节数
+                            byte[] buff = new byte[len];
+                            serialPort.Read(buff, 0, len);//把数据读取到数组中
+                            string result = Encoding.Default.GetString(buff);//将byte值根据为ASCII值转为string
+
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                // 解析和转换数据
+                                ProcessReceivedData(result);
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("串口通信发生错误: " + ex.Message);
+                    Console.WriteLine($"串口通信发生错误: {ex.Message}");
                 }
             }
         }
-
-        private static async Task ReadVacuumAsync(SerialPort serialPort, int deviceAddress)
+        private void ProcessReceivedData(string data)
         {
-            string address = deviceAddress.ToString("D2");
-
-            string command = $"{address}D";
-            string checksum = CalculateChecksum(command);
-            command = $":{command}{checksum}\r";
-
-            serialPort.WriteLine(command);
-
-            try
+            if (data.StartsWith(":01"))
             {
-                string response = await Task.Run(() =>
+                // 去除换行符
+                string trimmedData = data.Trim();
+
+                // 提取科学计数法部分并转换
+                string sciNotation = trimmedData.Substring(4, 8); // "1.00E-01"
+                string actualValue = ConvertScientificToValue(sciNotation);
+                if (!string.IsNullOrEmpty(actualValue))
                 {
-                    try
-                    {
-                        return serialPort.ReadLine();
-                    }
-                    catch (TimeoutException)
-                    {
-                        return null;
-                    }
-                });
-
-                if (response == null)
-                {
-                    Console.WriteLine("读取超时");
-                    return;
-                }
-
-                Console.WriteLine("设备响应: " + response);
-
-                // 处理响应数据并验证校验和
-                if (response.StartsWith($":{address}") && response.Length > 1)
-                {
-                    string responseData = response.Substring(1, response.Length - 4); // 去掉冒号和最后的校验和与CR
-                    string responseChecksum = response.Substring(response.Length - 3, 2); // 提取响应中的校验和
-                    string calculatedChecksum = CalculateChecksum(responseData);
-
-                    if (responseChecksum.Equals(calculatedChecksum, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // 提取真空度值
-                        int startIndex = response.IndexOf('D') + 1;
-                        int endIndex = response.IndexOf(' ', startIndex);
-                        if (endIndex == -1) endIndex = response.Length - 4; // 如果没有空格，则到结尾前4个字符
-                        string vacuumReading = response.Substring(startIndex, endIndex - startIndex);
-                        Console.WriteLine("真空度: " + vacuumReading);
-                    }
-                    else
-                    {
-                        Console.WriteLine("校验和不匹配");
-                    }
+                    UpdateVacuumText(actualValue);
                 }
                 else
                 {
-                    Console.WriteLine("无效的响应数据或地址不匹配");
+                    UpdateVacuumText("F.FF");
                 }
             }
-            catch (TimeoutException)
+            else
             {
-                Console.WriteLine("读取超时");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("处理响应时发生错误: " + ex.Message);
+                Console.WriteLine("接收到的数据格式不正确");
             }
         }
-
-        // 计算校验和
-        private static string CalculateChecksum(string input)
+        private string ConvertScientificToValue(string sciNotation)
         {
-            int checksum = 0;
-            foreach (char c in input)
+            if (double.TryParse(sciNotation, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double value))
             {
-                checksum ^= c;
+                return (value).ToString();
             }
-            return checksum.ToString("X2");
+            return "";
         }
-
+        private void UpdateVacuumText(string text)
+        {
+            if (vacuotext.InvokeRequired)
+            {
+                vacuotext.Invoke(new Action(() => vacuotext.Text = text));
+                GlobalDate.Vacuometer = text;
+            }
+            else
+            {
+                vacuotext.Text = text;
+                GlobalDate.Vacuometer = text;
+            }
+        }
+        #endregion
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
             {
                 // 从指定地址读取实际转矩值
-                LTDMC.nmc_read_rxpdo_extra_uint(cardNo, portNum, actualTorqueAddress, dataLen, ref actualValue);
+                PressDate.actualValue = LTDMC.nmc_read_rxpdo_extra_uint(PressDate.cardNo, PressDate.portNum, PressDate.actualTorqueAddress, PressDate.dataLen, ref actualValue);
 
                 // 读取指定轴的当前速度并更新速度显示
-                LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);
-                sun_Speed.Text = CurSpeed.ToString();
+                PressDate.CurSpeed = LTDMC.dmc_read_current_speed_unit(PressDate._CardID, 0, ref CurSpeed);
+                sun_Speed.Text = PressDate.CurSpeed.ToString();
 
                 // 读取压力指令值并将其转换为有意义的单位
                 int value0 = 0;
-                LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);
+                LTDMC.nmc_read_txpdo_extra(PressDate._CardID, 2, 0, 1, ref value0);
                 double value00 = ConvertVoltageToPressure(value0);
                 textBox5.Text = value00.ToString();
-                PressureVD = Math.Round(value00, 2);
+                PressDate.PressureVD = Math.Round(value00, 2);
 
                 // 读取指定轴的指令位置值并更新显示
-                LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);
+                PressDate.dCmdPos = LTDMC.dmc_get_position_unit(PressDate._CardID, 0, ref dCmdPos);
                 tb_CurrentPos.Text = dCmdPos.ToString();
-                CurrentPos = dCmdPos;
+                PressDate.CurrentPos = dCmdPos;
 
                 // 读取指定轴的编码器反馈值并更新显示
-                LTDMC.dmc_get_encoder_unit(_CardID, 0, ref dEnPos);
-                tb_Encoder.Text = dEnPos.ToString();
+                PressDate.dEnPos = LTDMC.dmc_get_encoder_unit(PressDate._CardID, 0, ref dEnPos);
+                tb_Encoder.Text = PressDate.dEnPos.ToString();
 
                 // 根据轴的运动状态更新运行状态显示
-                tb_RunState.Text = LTDMC.dmc_check_done(_CardID, 0) == 0 ? "运行中" : "停止中";
+                tb_RunState.Text = LTDMC.dmc_check_done(PressDate._CardID, 0) == 0 ? "运行中" : "停止中";
 
                 // 读取轴状态机的状态并更新显示
                 ushort usAxisStateMachine = 0;
@@ -239,6 +183,7 @@ namespace TestMain
 
                 // 更新当前时间显示
                 datetimepanel.Text = DateTime.Now.ToString();
+
             }
             catch (Exception ex)
             {
@@ -294,7 +239,7 @@ namespace TestMain
         }
 
         #region 逻辑处理
-        private void SportsCard()
+        private void InitializeSportsCard()
         {
             try
             {
@@ -318,7 +263,7 @@ namespace TestMain
                     return;
                 }
 
-                _CardID = cardids[0];
+                PressDate._CardID = cardids[0];
                 timer1.Start();
             }
             catch (Exception ex)
@@ -334,6 +279,7 @@ namespace TestMain
             this.ShowWarningDialog("初始卡失败!出错");
             alarmLogger.LogAlarm("初始卡失败!出错");
         }
+
         public static double ConvertVoltageToPressure(double voltage)
         {
             if (voltage < 0 || voltage > 10)
@@ -341,8 +287,7 @@ namespace TestMain
                 return 0;
             }
 
-            double pressure = (voltage / 10.0) * 30.0;
-            return pressure;
+            return (voltage / 10.0) * 30.0;
         }
         #endregion
 
@@ -448,5 +393,6 @@ namespace TestMain
             control.Show();
         }
         #endregion
+
     }
 }

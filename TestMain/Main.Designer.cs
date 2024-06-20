@@ -38,6 +38,9 @@
             this.uiButton1 = new Sunny.UI.UIButton();
             this.uiButton6 = new Sunny.UI.UIButton();
             this.uiGroupBox12 = new Sunny.UI.UIGroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.vacuotext = new System.Windows.Forms.TextBox();
             this.nud_AxisId = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
             this.tb_CurrentPos = new System.Windows.Forms.TextBox();
@@ -60,8 +63,6 @@
             this.uiPanel1 = new Sunny.UI.UIPanel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Linecharttimer = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.vacuotext = new System.Windows.Forms.TextBox();
             this.uiPanel2.SuspendLayout();
             this.titlepanel.SuspendLayout();
             this.uiPanel6.SuspendLayout();
@@ -96,21 +97,19 @@
             this.uiPanel8.Name = "uiPanel8";
             this.uiPanel8.Size = new System.Drawing.Size(1669, 786);
             this.uiPanel8.TabIndex = 3;
-            this.uiPanel8.Text = "uiPanel8";
             this.uiPanel8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // titlepanel
             // 
             this.titlepanel.Controls.Add(this.datetimepanel);
             this.titlepanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.titlepanel.Font = new System.Drawing.Font("微软雅黑", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.titlepanel.Font = new System.Drawing.Font("微软雅黑", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.titlepanel.Location = new System.Drawing.Point(233, 0);
             this.titlepanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.titlepanel.MinimumSize = new System.Drawing.Size(1, 1);
             this.titlepanel.Name = "titlepanel";
             this.titlepanel.Size = new System.Drawing.Size(1669, 63);
             this.titlepanel.TabIndex = 2;
-            this.titlepanel.Text = null;
             this.titlepanel.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // datetimepanel
@@ -188,6 +187,7 @@
             // 
             // uiGroupBox12
             // 
+            this.uiGroupBox12.Controls.Add(this.label2);
             this.uiGroupBox12.Controls.Add(this.label1);
             this.uiGroupBox12.Controls.Add(this.vacuotext);
             this.uiGroupBox12.Controls.Add(this.nud_AxisId);
@@ -217,6 +217,33 @@
             this.uiGroupBox12.TabIndex = 60;
             this.uiGroupBox12.Text = "信息显示";
             this.uiGroupBox12.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(210, 299);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(23, 16);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "pa";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 299);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 16);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "真空值:";
+            // 
+            // vacuotext
+            // 
+            this.vacuotext.Location = new System.Drawing.Point(107, 296);
+            this.vacuotext.Name = "vacuotext";
+            this.vacuotext.ReadOnly = true;
+            this.vacuotext.Size = new System.Drawing.Size(107, 26);
+            this.vacuotext.TabIndex = 30;
             // 
             // nud_AxisId
             // 
@@ -430,24 +457,6 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 299);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 16);
-            this.label1.TabIndex = 29;
-            this.label1.Text = "真空值:";
-            // 
-            // vacuotext
-            // 
-            this.vacuotext.Location = new System.Drawing.Point(107, 296);
-            this.vacuotext.Name = "vacuotext";
-            this.vacuotext.ReadOnly = true;
-            this.vacuotext.Size = new System.Drawing.Size(107, 26);
-            this.vacuotext.TabIndex = 30;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -505,6 +514,7 @@
         private Sunny.UI.UIPanel uiPanel8;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox vacuotext;
+        private System.Windows.Forms.Label label2;
     }
 }
 

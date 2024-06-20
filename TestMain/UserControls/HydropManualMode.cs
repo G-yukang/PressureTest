@@ -1,4 +1,5 @@
 ﻿using S7.Net.Types;
+using Sunny.UI;
 using Sunny.UI.Win32;
 using System;
 using System.Collections.Generic;
@@ -36,15 +37,9 @@ namespace TestMain.UserControls
         private ushort statemachine;//状态机
         private ushort MyPosiMode; // 位置模式，0 表示相对位置，1 表示绝对位置
 
-        private ushort _CardID;
-        private double PressureVD;          // 压力      
-        private double CurrentPos;          // 当前位置  
-        private double dCmdPos;             // 指令位置
-        private double CurSpeed;            // 当前速度
-        private double dEnPos;              // 编码器反馈位置
-
         private AlarmLogger alarmLogger;
         private System.DateTime dateTime;
+        private Main main;
         #endregion
 
         public HydropManualMode()
@@ -55,23 +50,18 @@ namespace TestMain.UserControls
         private void timer1_Tick(object sender, EventArgs e)
         {
             // 读取指定轴的当前速度并更新速度显示
-            LTDMC.dmc_read_current_speed_unit(_CardID, 0, ref CurSpeed);
-            SpeedTextBox.Text = CurSpeed.ToString();
-
-            // 读取压力指令值并将其转换为有意义的单位
-            int value0 = 0;
-            LTDMC.nmc_read_txpdo_extra(_CardID, 2, 0, 1, ref value0);
-            double value00 = value_AD(0, value0);
-            LTextBox.Text = value00.ToString();
-            PressureVD = value00;
-
+            SpeedTextBox.Text = PressDate.CurSpeed.ToString();
+            //当前压力
+            LTextBox.Text = PressDate.PressureVD.ToString();
             // 读取指定轴的指令位置值并更新显示
-            LTDMC.dmc_get_position_unit(_CardID, 0, ref dCmdPos);
-            LocationTextbox.Text = dCmdPos.ToString();
-            CurrentPos = dCmdPos;
+            LocationTextbox.Text = PressDate.CurrentPos.ToString();
+
+            Vacuometertext.Text = GlobalDate.Vacuometer;
         }
+
         private void HydropManualMode_Load(object sender, EventArgs e)
         {
+            main = new Main();
             short result = LTDMC.nmc_set_axis_run_mode(cardNo, axis, runMode);
             if (result == 0)
             {
@@ -82,92 +72,63 @@ namespace TestMain.UserControls
                 Console.WriteLine("设置轴运行模式失败，错误代码: " + result);
             }
         }
-        private double value_AD(ushort SubIndex, int value)
+
+        private void InitializeMotor()
         {
-            try
+            // 获取当前时间
+            dateTime = System.DateTime.Now;
+            if (string.IsNullOrEmpty(startspeel.Text) || string.IsNullOrEmpty(maxspeel.Text) || string.IsNullOrEmpty(StopTime.Text) || string.IsNullOrEmpty(AccelerationTime.Text) || string.IsNullOrEmpty(stopspeel.Text))
             {
-                // 根据不同电压模式量程转换值
-                int Value = 0;
-                double _value = 1;
-                LTDMC.nmc_get_node_od(_CardID, 2, 0, 32768, (ushort)(SubIndex + 1), 8, ref Value);
-                switch (Value)
-                {
-                    case 0: // 电压模式量程±5V
-                        _value = value * 5 / 32000.0;
-                        break;
-                    case 1: // 电压模式量程1-5V
-                        _value = value * 4 / 32000.0 + 1;
-                        break;
-                    case 2: // 电压模式量程±10V
-                        _value = value * 10 / 32000.0;
-                        break;
-                    case 3: // 电压模式量程0-10V
-                        _value = value * 10 / 32000.0;
-                        break;
-                }
-                return _value;
+                main.ShowWarningDialog($"速度时间参数不能为空\r起始速度:{startspeel.Text}\r最大速度:{maxspeel.Text}\r减速时间:{StopTime.Text}\r加速时间:{AccelerationTime.Text}\r停止速度:{stopspeel.Text}");
             }
-            catch (Exception)
+            else
             {
-                throw;
+                // 初始化控制卡
+                int ret = LTDMC.dmc_board_init();
+                if (ret == 0)
+                {
+                    // 设置速度曲线
+                    double Start_Vel = double.Parse(startspeel.Text); // 起始速度
+                    double Max_Vel = double.Parse(maxspeel.Text);// 最大速度
+                    double Tacc = double.Parse(AccelerationTime.Text);// 加速时间
+                    double Tdec = double.Parse(StopTime.Text); // 减速时间
+                    double Stop_Vel = double.Parse(stopspeel.Text); // 停止速度
+
+                    ret = LTDMC.dmc_set_profile_unit(MyCardNo, MyAxis, Start_Vel, Max_Vel, Tacc, Tdec, Stop_Vel);
+                    if (ret != 0)
+                    {
+                        alarmLogger.LogAlarm($"手动模式：设置速度曲线失败，错误代码：{ret}");
+                    }
+                }
+                else
+                {
+                    alarmLogger.LogAlarm($"手动模式：初始化失败，错误代码：{ret}");
+                }
             }
         }
+
+        #region 点击事件
+        //设置正转
         private void uiButton1_Click(object sender, EventArgs e)
         {
             // 设置正转
             InitializeMotor();
             MoveAxis(1000); // 正转距离
         }
-
+        //设置反转
         private void uiButton2_Click(object sender, EventArgs e)
         {
             // 设置反转
             InitializeMotor();
             MoveAxis(-1000); // 反转距离
         }
-        private void InitializeMotor()
-        {
-            // 获取当前时间
-            dateTime = System.DateTime.Now;
-
-            // 初始化控制卡
-            int ret = LTDMC.dmc_board_init();
-            if (ret == 0)
-            {
-                // 设置速度曲线
-                double Start_Vel = 0; // 起始速度
-                double Max_Vel = 1000; // 最大速度
-                double Tacc = 0.1; // 加速时间
-                double Tdec = 0.1; // 减速时间
-                double Stop_Vel = 0; // 停止速度
-
-                ret = LTDMC.dmc_set_profile_unit(MyCardNo, MyAxis, Start_Vel, Max_Vel, Tacc, Tdec, Stop_Vel);
-                if (ret != 0)
-                {
-                    alarmLogger.LogAlarm($"手动模式：设置速度曲线失败，错误代码：{ret}");
-                }
-            }
-            else
-            {
-                alarmLogger.LogAlarm($"手动模式：初始化失败，错误代码：{ret}");
-            }
-        }
-        private void MoveAxis(double distance)
-        {
-            LTDMC.dmc_pmove_unit(MyCardNo, MyAxis, distance, MyPosiMode);
-            // 等待运动完成
-            while (LTDMC.dmc_check_done(MyCardNo, MyAxis) == 0)
-            {
-                Application.DoEvents();
-            }
-        }
-
+        //报警复位
         private void uiButton8_Click(object sender, EventArgs e)
         {
             AlarmControls alarmControls = new AlarmControls();
             alarmControls.AppendTextToRichTextBox();
         }
-
+        //矫正置零
         private void uiButton7_Click(object sender, EventArgs e)
         {
             alarmLogger = new AlarmLogger();
@@ -207,7 +168,7 @@ namespace TestMain.UserControls
                 alarmLogger.LogAlarm($"手动模式：设置零点异常：{ex}");
             }
         }
-
+        //回零点
         private void uiButton9_Click(object sender, EventArgs e)
         {
             try
@@ -237,7 +198,15 @@ namespace TestMain.UserControls
                 alarmLogger.LogAlarm($"回零异常：{ex}");
             }
         }
-
-
+        private void MoveAxis(double distance)
+        {
+            LTDMC.dmc_pmove_unit(MyCardNo, MyAxis, distance, MyPosiMode);
+            // 等待运动完成
+            while (LTDMC.dmc_check_done(MyCardNo, MyAxis) == 0)
+            {
+                Application.DoEvents();
+            }
+        }
+        #endregion
     }
 }
