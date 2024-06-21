@@ -20,7 +20,7 @@ namespace TestMain.Controls
                 // 写入数据到 XML 文件
                // bool res = xmlFileManager.WriteToFile(DataAnalysisDefault());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
