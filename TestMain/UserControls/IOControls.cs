@@ -17,7 +17,7 @@ namespace TestMain.UserControls
         private AlarmLogger alarmLogger;
         DateTime dateTime;
 
-        public IOControls(string name="")
+        public IOControls(string name = "")
         {
             InitializeComponent();
             timer1.Start();
@@ -30,35 +30,6 @@ namespace TestMain.UserControls
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                dateTime = DateTime.Now;
-                // 定义卡号
-                ushort cardNo = 0;
-
-                // 定义输入端口和输出端口数组
-                int[] inputPorts = { 1, 2, 3, 4, 5, 6 };
-                UILightState[] outputStates = new UILightState[6];
-
-                // 读取输入端口的电平值并设置输出状态
-                for (int i = 0; i < inputPorts.Length; i++)
-                {
-                    short inputValue = LTDMC.dmc_read_inbit(cardNo, (ushort)inputPorts[i]);
-                    outputStates[i] = inputValue != 0 ? UILightState.Off : UILightState.On;
-                }
-
-                // 设置对应的输出端口状态
-                outIO1.State = outputStates[0];
-                outIO2.State = outputStates[1];
-                outIO3.State = outputStates[2];
-                outIO4.State = outputStates[3];
-                outIO5.State = outputStates[4];
-                outIO6.State = outputStates[5];
-            }
-            catch (Exception ex)
-            {
-                alarmLogger.SystemLogAlarm(dateTime + "IO读取报警:" + ex);
-            }
 
         }
 
@@ -67,33 +38,117 @@ namespace TestMain.UserControls
         #region 卡号，第几个IO，高电平1
         private void uiButton1_Click(object sender, EventArgs e)
         {
-            LTDMC.dmc_write_outbit(0, 1, 1);
+            if (uiButton1.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 8, 1);
+                uiButton1.Text = "off";
+                outIO1.State= UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 8, 0);
+                uiButton1.Text = "on";
+                outIO1.State= UILightState.On;
+            }
         }
 
         private void uiButton2_Click(object sender, EventArgs e)
         {
-            LTDMC.dmc_write_outbit(0, 2, 1);
+            if (uiButton2.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 9, 1); 
+                uiButton2.Text = "off";
+                outIO2.State = UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 9, 0); 
+                uiButton2.Text = "on";
+                outIO2.State = UILightState.On;
+            }
         }
 
         private void uiButton3_Click(object sender, EventArgs e)
         {
-            LTDMC.dmc_write_outbit(0, 3, 1);
+            if (uiButton3.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 10, 1);
+                uiButton3.Text = "off";
+                outIO3.State = UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 10, 0);
+                uiButton3.Text = "on";
+                outIO3.State = UILightState.On;
+            }
         }
 
         private void uiButton4_Click(object sender, EventArgs e)
         {
-            LTDMC.dmc_write_outbit(0, 4, 1);
+            if (uiButton4.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 11, 1);
+                uiButton4.Text = "off";
+                outIO4.State = UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 11, 0);
+                uiButton4.Text = "on";
+                outIO4.State = UILightState.On;
+            }
         }
 
         private void uiButton5_Click(object sender, EventArgs e)
         {
-            LTDMC.dmc_write_outbit(0, 5, 1);
+            if (uiButton5.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 12, 1);
+                uiButton5.Text = "off";
+                outIO5.State = UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 12, 0);
+                uiButton5.Text = "on";
+                outIO5.State = UILightState.On;
+            }
         }
 
         private void uiButton6_Click(object sender, EventArgs e)
         {
-            LTDMC.dmc_write_outbit(0, 6, 1);
+            if (uiButton6.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 13, 1);
+                uiButton6.Text = "off";
+                outIO6.State= UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 13, 0);
+                uiButton6.Text = "on";
+                outIO6.State = UILightState.On;
+            }
+        }
+        private void uiButton7_Click(object sender, EventArgs e)
+        {
+
+            if (uiButton7.Text == "on")
+            {
+                LTDMC.dmc_write_outbit(0, 14, 1);
+                uiButton7.Text = "off";
+                outIO7.State = UILightState.Off;
+            }
+            else
+            {
+                LTDMC.dmc_write_outbit(0, 14, 0);
+                uiButton7.Text = "on";
+                outIO7.State = UILightState.On;
+            }
         }
         #endregion
+
+
     }
 }

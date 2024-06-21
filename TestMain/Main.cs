@@ -141,6 +141,17 @@ namespace TestMain
         }
         #endregion
 
+
+        public void FlowStep(int step) 
+        {
+            switch (step)
+            {
+
+                default:
+                    break;
+            }
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             try

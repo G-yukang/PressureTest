@@ -38,7 +38,6 @@
             this.uiButton1 = new Sunny.UI.UIButton();
             this.uiButton6 = new Sunny.UI.UIButton();
             this.uiGroupBox12 = new Sunny.UI.UIGroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.vacuotext = new System.Windows.Forms.TextBox();
             this.nud_AxisId = new System.Windows.Forms.TextBox();
@@ -97,6 +96,7 @@
             this.uiPanel8.Name = "uiPanel8";
             this.uiPanel8.Size = new System.Drawing.Size(1669, 786);
             this.uiPanel8.TabIndex = 3;
+            this.uiPanel8.Text = null;
             this.uiPanel8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // titlepanel
@@ -110,6 +110,7 @@
             this.titlepanel.Name = "titlepanel";
             this.titlepanel.Size = new System.Drawing.Size(1669, 63);
             this.titlepanel.TabIndex = 2;
+            this.titlepanel.Text = null;
             this.titlepanel.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // datetimepanel
@@ -154,14 +155,13 @@
             this.uiPanel6.Name = "uiPanel6";
             this.uiPanel6.Size = new System.Drawing.Size(233, 1045);
             this.uiPanel6.TabIndex = 1;
-            this.uiPanel6.Text = "uiPanel6";
             this.uiPanel6.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // uiButton1
             // 
             this.uiButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton1.Location = new System.Drawing.Point(27, 206);
+            this.uiButton1.Location = new System.Drawing.Point(25, 176);
             this.uiButton1.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.uiButton1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton1.Name = "uiButton1";
@@ -175,7 +175,7 @@
             // 
             this.uiButton6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton6.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton6.Location = new System.Drawing.Point(27, 633);
+            this.uiButton6.Location = new System.Drawing.Point(25, 599);
             this.uiButton6.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.uiButton6.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton6.Name = "uiButton6";
@@ -187,7 +187,6 @@
             // 
             // uiGroupBox12
             // 
-            this.uiGroupBox12.Controls.Add(this.label2);
             this.uiGroupBox12.Controls.Add(this.label1);
             this.uiGroupBox12.Controls.Add(this.vacuotext);
             this.uiGroupBox12.Controls.Add(this.nud_AxisId);
@@ -208,24 +207,15 @@
             this.uiGroupBox12.Controls.Add(this.label49);
             this.uiGroupBox12.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.uiGroupBox12.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiGroupBox12.Location = new System.Drawing.Point(0, 723);
+            this.uiGroupBox12.Location = new System.Drawing.Point(0, 689);
             this.uiGroupBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiGroupBox12.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox12.Name = "uiGroupBox12";
             this.uiGroupBox12.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox12.Size = new System.Drawing.Size(233, 322);
+            this.uiGroupBox12.Size = new System.Drawing.Size(233, 356);
             this.uiGroupBox12.TabIndex = 60;
             this.uiGroupBox12.Text = "信息显示";
             this.uiGroupBox12.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(210, 299);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(23, 16);
-            this.label2.TabIndex = 31;
-            this.label2.Text = "pa";
             // 
             // label1
             // 
@@ -401,7 +391,7 @@
             // 
             this.uiButton3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton3.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton3.Location = new System.Drawing.Point(27, 490);
+            this.uiButton3.Location = new System.Drawing.Point(25, 460);
             this.uiButton3.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.uiButton3.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton3.Name = "uiButton3";
@@ -415,7 +405,7 @@
             // 
             this.uiButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton2.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton2.Location = new System.Drawing.Point(27, 347);
+            this.uiButton2.Location = new System.Drawing.Point(25, 317);
             this.uiButton2.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.uiButton2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton2.Name = "uiButton2";
@@ -429,7 +419,7 @@
             // 
             this.uiButton4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButton4.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButton4.Location = new System.Drawing.Point(27, 63);
+            this.uiButton4.Location = new System.Drawing.Point(25, 33);
             this.uiButton4.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
             this.uiButton4.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton4.Name = "uiButton4";
@@ -514,7 +504,6 @@
         private Sunny.UI.UIPanel uiPanel8;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox vacuotext;
-        private System.Windows.Forms.Label label2;
     }
 }
 
